@@ -146,7 +146,7 @@
   .sort-btn:hover { border-color: var(--green); color: var(--green); }
   .sort-btn.active { background: var(--green); color: white; border-color: var(--green); }
 
-  .actions { display: flex; gap: 8px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
   .btn {
     padding: 8px 16px;
     border-radius: 8px;
@@ -630,6 +630,57 @@
     margin-top: 8px;
     font-style: italic;
   }
+
+  .read-only-banner,
+  .editor-banner {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .read-only-banner {
+    background: #fff7ed;
+    color: #9a3412;
+    border: 1px solid #fed7aa;
+  }
+
+  .editor-banner {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+  }
+
+  .save-status {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+  }
+
+  .read-only .edit-icon,
+  .read-only #btn-export,
+  .read-only #btn-download-data,
+  .read-only #btn-import-data,
+  .read-only .panel-footer .btn-primary,
+  .read-only .panel-footer .btn-danger,
+  .read-only .comment-input + .btn-primary {
+    display: none !important;
+  }
+
+  .read-only .form-input,
+  .read-only .form-select,
+  .read-only .form-date,
+  .read-only .progress-slider,
+  .read-only .comment-input,
+  .read-only #project-notes {
+    background: #f8fafc;
+    color: #64748b;
+  }
 </style>
 </head>
 <body>
@@ -686,9 +737,9 @@
       </div>
     </div>
     <div class="actions">
-      <button class="btn btn-secondary" onclick="expandAll()">Развернуть все</button>
-      <button class="btn btn-secondary" onclick="collapseAll()">Свернуть все</button>
-      <button class="btn btn-secondary" onclick="exportData()">Экспорт</button>
+      <button id="btn-expand" class="btn btn-secondary" onclick="expandAll()">Развернуть все</button>
+      <button id="btn-collapse" class="btn btn-secondary" onclick="collapseAll()">Свернуть все</button>
+      <button id="btn-export" class="btn btn-secondary" onclick="exportData()">Экспорт</button>
     </div>
   </div>
   <div class="controls-row">
@@ -728,7 +779,7 @@
   </div>
 </div>
 
-<div class="hint">Клик по стрелке разворачивает или сворачивает подпункты. Клик по строке открывает редактирование. Клик по модулю фильтрует задачи. Клик по роли в легенде фильтрует по ответственному. Прогресс родительской задачи считается по подпунктам.</div>
+<div class="hint">Клик по стрелке разворачивает или сворачивает подпункты. Клик по строке открывает карточку задачи. Клик по модулю фильтрует задачи. Клик по роли в легенде фильтрует по ответственному. Прогресс родительской задачи считается по подпунктам.</div>
 
 <div class="notes-section">
   <div class="notes-title">Общие примечания, допущения и риски</div>
@@ -740,7 +791,7 @@
 <div class="side-panel" id="side-panel">
   <div class="panel-header">
     <div>
-      <div class="panel-title" id="panel-title">Редактирование задачи</div>
+      <div class="panel-title" id="panel-title">Карточка задачи</div>
       <div class="panel-subtitle" id="panel-subtitle">Модуль</div>
     </div>
     <button class="panel-close" onclick="closePanel()">&times;</button>
@@ -852,7 +903,23 @@ const END = parseLocalDate('2026-11-16');
 const START_KEY = formatISO(START);
 const END_KEY = formatISO(END);
 const DAY_W = 30;
-const STORAGE_KEY = 'wms-gantt-v4';
+
+const STORAGE_KEY = 'wms-gantt-v5';
+const OLD_STORAGE_KEYS = ['wms-gantt-v4'];
+const DEVICE_KEY = 'wms-gantt-device-id';
+const DATA_URL = './data.json';
+const AUTO_REFRESH_MS = 60000;
+const DEFAULT_COL_WIDTHS = [340, 180, 110, 60];
+
+const isEditor = (() => {
+  try {
+    const params = new URLSearchParams(location.search);
+    const host = location.hostname;
+    return params.has('edit') || host === 'localhost' || host === '127.0.0.1' || location.protocol === 'file:';
+  } catch (e) {
+    return false;
+  }
+})();
 
 const GROUPS = [
   "Начало и управление",
@@ -897,7 +964,13 @@ const initialNotes = `Важно: это план-гипотеза на осно
 По хотфиксам:
 P1 это блокирующий дефект: теряет данные, ломает остатки, блокирует операцию, нарушает безопасность.
 P2 это критичный дефект основного процесса: мешает работе, нет нормального обхода.
-P3 это неудобство или косметика: можно обойти, идёт в бэклог после запуска.`;
+P3 это неудобство или косметика: можно обойти, идёт в бэклог после запуска.
+
+Как работает этот файл:
+- Обычная ссылка: https://alexlog-198.github.io/wms-gantt/ это просмотр.
+- Редакторская ссылка: https://alexlog-198.github.io/wms-gantt/?edit=1 это режим владельца.
+- Общие данные берутся из файла data.json в корне репозитория GitHub.
+- Чтобы опубликовать изменения, нужно скачать data.json и заменить его в GitHub.`;
 
 const initialData = [
   { id: 1, group: "Начало и управление", task: "Начало проекта: цели, границы, роли и ограничения", role: "scm", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: true, parentId: null, comments: [] },
@@ -1231,12 +1304,15 @@ let tasks = [];
 let currentTaskId = null;
 let currentFilter = 'all';
 let currentRoleFilter = 'all';
-let colWidths = [340, 180, 110, 60];
+let colWidths = DEFAULT_COL_WIDTHS.slice();
 let viewMode = 'dates';
 let sortOrder = 'asc';
 let collapsed = new Set();
 let globalChildrenMap = {};
 let visibleTasksForStats = [];
+let refreshTimer = null;
+let lastPublishedUpdatedAt = 0;
+let publishedFound = false;
 
 function rebuildGlobalIndexes() {
   globalChildrenMap = {};
@@ -1295,42 +1371,330 @@ function getDescendantIds(id) {
   return result;
 }
 
-function loadData() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      tasks = Array.isArray(parsed.tasks) ? parsed.tasks : JSON.parse(JSON.stringify(initialData));
-      document.getElementById('project-notes').value = typeof parsed.notes === 'string' ? parsed.notes : initialNotes;
-      if (Array.isArray(parsed.colWidths) && parsed.colWidths.length === 4) colWidths = parsed.colWidths;
-      if (parsed.viewMode) viewMode = parsed.viewMode;
-      if (parsed.sortOrder) sortOrder = parsed.sortOrder;
-      collapsed = new Set(Array.isArray(parsed.collapsedIds) ? parsed.collapsedIds : []);
-    } catch(e) {
-      tasks = JSON.parse(JSON.stringify(initialData));
-      document.getElementById('project-notes').value = initialNotes;
-      collapsed = new Set();
-    }
-  } else {
-    tasks = JSON.parse(JSON.stringify(initialData));
-    document.getElementById('project-notes').value = initialNotes;
-    collapsed = new Set();
+function getDeviceId() {
+  let id = localStorage.getItem(DEVICE_KEY);
+  if (!id) {
+    id = 'device-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
+    localStorage.setItem(DEVICE_KEY, id);
   }
+  return id;
+}
+
+function formatDateTime(ts) {
+  if (!ts) return 'нет данных';
+  return new Date(ts).toLocaleString('ru-RU');
+}
+
+function makeDefaultState() {
+  return {
+    tasks: JSON.parse(JSON.stringify(initialData)),
+    notes: initialNotes,
+    colWidths: DEFAULT_COL_WIDTHS.slice(),
+    viewMode: 'dates',
+    sortOrder: 'asc',
+    collapsedIds: [],
+    updatedAt: 0,
+    updatedBy: 'initial'
+  };
+}
+
+function normalizeState(raw) {
+  if (!raw || !Array.isArray(raw.tasks)) return null;
+
+  const validTasks = raw.tasks.filter(t =>
+    t &&
+    t.id !== undefined &&
+    t.id !== null &&
+    typeof t.task === 'string' &&
+    t.start &&
+    t.end
+  );
+
+  if (validTasks.length === 0) return null;
+
+  return {
+    tasks: validTasks.map(t => ({
+      ...t,
+      comments: Array.isArray(t.comments) ? t.comments : []
+    })),
+    notes: typeof raw.notes === 'string' ? raw.notes : initialNotes,
+    colWidths: Array.isArray(raw.colWidths) && raw.colWidths.length === 4
+      ? raw.colWidths.map((w, i) => Number(w) > 0 ? Number(w) : DEFAULT_COL_WIDTHS[i])
+      : DEFAULT_COL_WIDTHS.slice(),
+    viewMode: raw.viewMode === 'groups' ? 'groups' : 'dates',
+    sortOrder: raw.sortOrder === 'desc' ? 'desc' : 'asc',
+    collapsedIds: Array.isArray(raw.collapsedIds)
+      ? raw.collapsedIds.map(Number).filter(n => !Number.isNaN(n))
+      : [],
+    updatedAt: Number(raw.updatedAt) || 0,
+    updatedBy: String(raw.updatedBy || '')
+  };
+}
+
+function getCurrentState() {
+  const notesEl = document.getElementById('project-notes');
+  return {
+    tasks: tasks.map(t => ({
+      ...t,
+      comments: Array.isArray(t.comments) ? t.comments : []
+    })),
+    notes: notesEl ? notesEl.value : initialNotes,
+    colWidths: colWidths.slice(),
+    viewMode,
+    sortOrder,
+    collapsedIds: Array.from(collapsed),
+    updatedAt: Date.now(),
+    updatedBy: getDeviceId()
+  };
+}
+
+function applyState(state) {
+  const normalized = normalizeState(state);
+  if (!normalized) return false;
+
+  tasks = normalized.tasks;
+
+  const notesEl = document.getElementById('project-notes');
+  if (notesEl) notesEl.value = normalized.notes;
+
+  colWidths = normalized.colWidths;
+  viewMode = normalized.viewMode;
+  sortOrder = normalized.sortOrder;
+  collapsed = new Set(normalized.collapsedIds);
+
   rebuildGlobalIndexes();
   applyColWidths();
   updateSortButtons();
+
+  return true;
+}
+
+function readLocalState() {
+  try {
+    return normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEY)));
+  } catch (e) {
+    return null;
+  }
+}
+
+function writeLocalState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(getCurrentState()));
+}
+
+async function readPublishedState() {
+  try {
+    const response = await fetch(DATA_URL + '?nocache=' + Date.now(), {
+      cache: 'no-store'
+    });
+
+    if (!response.ok) return null;
+
+    return normalizeState(await response.json());
+  } catch (e) {
+    return null;
+  }
+}
+
+function setupMode() {
+  const header = document.querySelector('.header');
+
+  if (isEditor) {
+    if (header && !document.getElementById('editor-banner')) {
+      const banner = document.createElement('div');
+      banner.id = 'editor-banner';
+      banner.className = 'editor-banner';
+      banner.textContent = 'Режим редактора. Изменения сохраняются локально в этом браузере. Чтобы их увидели все, скачай data.json и замени файл data.json в GitHub.';
+      header.appendChild(banner);
+    }
+  } else {
+    document.body.classList.add('read-only');
+
+    if (header && !document.getElementById('read-only-banner')) {
+      const banner = document.createElement('div');
+      banner.id = 'read-only-banner';
+      banner.className = 'read-only-banner';
+      banner.textContent = 'Режим просмотра. Менять проценты, комментарии и заметки может только владелец проекта.';
+      header.appendChild(banner);
+    }
+  }
+
+  const controls = document.querySelector('.controls');
+  if (controls && !document.getElementById('save-status')) {
+    const status = document.createElement('div');
+    status.id = 'save-status';
+    status.className = 'save-status';
+    controls.appendChild(status);
+  }
+
+  if (isEditor) {
+    const actions = document.querySelector('.actions');
+
+    if (actions && !document.getElementById('btn-import-data')) {
+      const btn = document.createElement('button');
+      btn.id = 'btn-import-data';
+      btn.className = 'btn btn-secondary';
+      btn.textContent = 'Импорт data.json';
+      btn.onclick = () => {
+        const input = document.getElementById('import-file-input');
+        if (input) input.click();
+      };
+      actions.prepend(btn);
+    }
+
+    if (actions && !document.getElementById('btn-download-data')) {
+      const btn = document.createElement('button');
+      btn.id = 'btn-download-data';
+      btn.className = 'btn btn-primary';
+      btn.textContent = 'Скачать data.json';
+      btn.onclick = downloadDataJson;
+      actions.prepend(btn);
+    }
+
+    if (!document.getElementById('import-file-input')) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.id = 'import-file-input';
+      input.accept = 'application/json,.json';
+      input.style.display = 'none';
+      input.onchange = importDataJson;
+      document.body.appendChild(input);
+    }
+  }
+}
+
+function updateSaveStatus() {
+  const el = document.getElementById('save-status');
+  if (!el) return;
+
+  if (isEditor) {
+    el.textContent = 'Черновик сохраняется в этом браузере. Для публикации: Скачать data.json, заменить data.json в GitHub, подождать обновления страницы.';
+  } else if (publishedFound) {
+    el.textContent = 'Просмотр. Последняя публикация: ' + formatDateTime(lastPublishedUpdatedAt);
+  } else {
+    el.textContent = 'Просмотр. data.json не найден, показан встроенный начальный план.';
+  }
+}
+
+function downloadDataJson() {
+  if (!isEditor) return;
+
+  const state = getCurrentState();
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.json';
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  writeLocalState();
+  updateSaveStatus();
+  showToast('data.json скачан. Загрузи его в GitHub вместо старого файла data.json.');
+}
+
+function importDataJson(event) {
+  if (!isEditor) return;
+
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const state = normalizeState(parsed);
+
+      if (!state) {
+        showToast('В файле нет валидных задач');
+        return;
+      }
+
+      if (!confirm('Заменить текущие данные содержимым файла?')) {
+        return;
+      }
+
+      applyState(state);
+      writeLocalState();
+      renderChart();
+      updateSaveStatus();
+      showToast('Файл импортирован');
+    } catch (err) {
+      showToast('Ошибка чтения JSON');
+    }
+  };
+
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function startAutoRefresh() {
+  if (refreshTimer) clearInterval(refreshTimer);
+
+  refreshTimer = setInterval(async () => {
+    const published = await readPublishedState();
+    if (!published) return;
+
+    publishedFound = true;
+
+    if (published.updatedAt && published.updatedAt !== lastPublishedUpdatedAt) {
+      lastPublishedUpdatedAt = published.updatedAt;
+      applyState(published);
+      renderChart();
+      updateSaveStatus();
+      showToast('Данные обновлены');
+    }
+  }, AUTO_REFRESH_MS);
+}
+
+async function bootstrap() {
+  OLD_STORAGE_KEYS.forEach(key => {
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {}
+  });
+
+  setupMode();
+
+  const published = await readPublishedState();
+  publishedFound = !!published;
+
+  if (published) {
+    lastPublishedUpdatedAt = published.updatedAt || 0;
+  }
+
+  const local = readLocalState();
+  let chosen = null;
+
+  if (isEditor) {
+    if (local && (!published || (local.updatedAt || 0) >= (published.updatedAt || 0))) {
+      chosen = local;
+    } else if (published) {
+      chosen = published;
+    }
+  } else {
+    chosen = published || local;
+  }
+
+  if (!chosen || !Array.isArray(chosen.tasks) || chosen.tasks.length === 0) {
+    chosen = makeDefaultState();
+  }
+
+  applyState(chosen);
+  renderTimelineHeader();
+  renderChart();
+  updateSaveStatus();
+
+  if (!isEditor) {
+    startAutoRefresh();
+  }
 }
 
 function saveData() {
-  const notes = document.getElementById('project-notes').value;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    tasks,
-    notes,
-    colWidths,
-    viewMode,
-    sortOrder,
-    collapsedIds: Array.from(collapsed)
-  }));
+  if (!isEditor) return;
+  writeLocalState();
+  updateSaveStatus();
 }
 
 function applyColWidths() {
@@ -1692,6 +2056,26 @@ function updateSortButtons() {
   });
 }
 
+function setPanelEditable(editable) {
+  const fieldIds = [
+    'edit-task-name',
+    'edit-role',
+    'edit-start',
+    'edit-end',
+    'edit-critical',
+    'progress-slider',
+    'comment-input'
+  ];
+
+  fieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = !editable;
+  });
+
+  const notes = document.getElementById('project-notes');
+  if (notes) notes.readOnly = !editable;
+}
+
 function openPanel(taskId) {
   currentTaskId = taskId;
   const task = tasks.find(t => t.id === taskId);
@@ -1709,10 +2093,16 @@ function openPanel(taskId) {
 
   const slider = document.getElementById('progress-slider');
   const autoNote = document.getElementById('auto-note');
-  slider.disabled = isParent;
+
+  setPanelEditable(isEditor);
+
   autoNote.style.display = isParent ? 'block' : 'none';
   slider.value = effectiveProgress(task);
   document.getElementById('progress-value').textContent = effectiveProgress(task) + '%';
+
+  if (isParent) {
+    slider.disabled = true;
+  }
 
   renderComments(task);
 
@@ -1750,6 +2140,8 @@ function renderComments(task) {
 }
 
 function addComment() {
+  if (!isEditor) return;
+
   const input = document.getElementById('comment-input');
   const text = input.value.trim();
   if (!text || !currentTaskId) return;
@@ -1772,7 +2164,9 @@ function addComment() {
 }
 
 function saveTask() {
+  if (!isEditor) return;
   if (!currentTaskId) return;
+
   const task = tasks.find(t => t.id === currentTaskId);
   if (!task) return;
 
@@ -1799,7 +2193,9 @@ function saveTask() {
 }
 
 function deleteTask() {
+  if (!isEditor) return;
   if (!currentTaskId) return;
+
   const task = tasks.find(t => t.id === currentTaskId);
   if (!task) return;
 
@@ -1831,15 +2227,8 @@ function showToast(msg) {
 }
 
 function exportData() {
-  const notes = document.getElementById('project-notes').value;
-  const data = JSON.stringify({
-    tasks,
-    notes,
-    colWidths,
-    viewMode,
-    sortOrder,
-    collapsedIds: Array.from(collapsed)
-  }, null, 2);
+  const state = getCurrentState();
+  const data = JSON.stringify(state, null, 2);
   const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1911,9 +2300,7 @@ document.addEventListener('mouseup', () => {
 document.getElementById('project-notes').addEventListener('change', saveData);
 
 renderFilterButtons();
-loadData();
-renderTimelineHeader();
-renderChart();
+bootstrap();
 </script>
 </body>
 </html>
