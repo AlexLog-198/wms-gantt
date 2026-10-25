@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WMS: доработка, рейсы, документы и тестовая эксплуатация</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #3b82f6;
+    --green: #10b981;
+    --orange: #f97316;
+    --purple: #8b5cf6;
+    --gray: #64748b;
+    --teal: #14b8a6;
+    --red: #ef4444;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-muted: #64748b;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { color: var(--text-muted); font-size: 14px; }
+
+  .stats { display: flex; gap: 24px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-value { font-size: 28px; font-weight: 700; color: var(--blue); }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .progress-bar-container {
+    background: #e2e8f0;
+    border-radius: 8px;
+    height: 12px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    border-radius: 8px;
+    transition: width 0.5s ease;
+  }
+
+  .controls {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .legend { display: flex; gap: 8px; flex-wrap: wrap; }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--card);
+    user-select: none;
+  }
+  .legend-item:hover { border-color: var(--blue); color: var(--blue); }
+  .legend-item.active {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+  }
+  .legend-item.active[data-role="scm"] { background: var(--blue); border-color: var(--blue); }
+  .legend-item.active[data-role="log"] { background: var(--green); border-color: var(--green); }
+  .legend-item.active[data-role="shift"] { background: var(--orange); border-color: var(--orange); }
+  .legend-item.active[data-role="admin"] { background: var(--teal); border-color: var(--teal); }
+  .legend-item.active[data-role="keeper"] { background: var(--gray); border-color: var(--gray); }
+  .legend-item.active[data-role="dev"] { background: var(--purple); border-color: var(--purple); }
+  .legend-item.active[data-role="holiday"] { background: var(--red); border-color: var(--red); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+  .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .filter-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+  .sort-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sort-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+  .sort-btn:hover { border-color: var(--green); color: var(--green); }
+  .sort-btn.active { background: var(--green); color: white; border-color: var(--green); }
+
+  .actions { display: flex; gap: 8px; }
+  .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: #2563eb; }
+  .btn-secondary { background: #f1f5f9; color: var(--text); }
+  .btn-secondary:hover { background: #e2e8f0; }
+  .btn-danger { background: #fee2e2; color: #b91c1c; }
+  .btn-danger:hover { background: #fecaca; }
+
+  .active-filters {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .active-filters.show { display: flex; }
+  .filter-tag {
+    background: #eff6ff;
+    color: var(--blue);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .filter-tag .clear {
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 2px;
+  }
+  .filter-tag .clear:hover { color: var(--red); }
+
+  .chart-container {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    overflow: hidden;
+    display: flex;
+    max-height: 74vh;
+  }
+  .chart-left {
+    flex: 0 0 auto;
+    border-right: 2px solid var(--border);
+    overflow-y: auto;
+    background: var(--card);
+    z-index: 10;
+    min-width: 660px;
+  }
+  .chart-right { flex: 1; overflow: auto; position: relative; }
+
+  .row-header {
+    display: grid;
+    grid-template-columns: 340px 180px 110px 60px;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    align-items: center;
+  }
+  .row-header .col {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .row-header .col:last-child { justify-content: flex-end; }
+
+  .resizer {
+    width: 8px;
+    height: 20px;
+    cursor: col-resize;
+    background: transparent;
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  .resizer:hover, .resizer.resizing { background: var(--blue); border-radius: 2px; }
+
+  .task-row {
+    display: grid;
+    grid-template-columns: 340px 180px 110px 60px;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+    align-items: center;
+  }
+  .task-row:hover { background: #f8fafc; }
+  .task-row.selected { background: #eff6ff; border-left: 3px solid var(--blue); }
+  .task-row.parent .task-name { font-weight: 650; }
+  .task-row.child .task-name { font-weight: 450; color: #334155; }
+  .task-row.group-row {
+    background: #f1f5f9;
+    font-weight: 600;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    grid-template-columns: 1fr;
+  }
+  .task-row.group-row:hover { background: #e2e8f0; }
+  .task-row.group-row.active-group {
+    background: #dbeafe;
+    border-left: 3px solid var(--blue);
+  }
+
+  .tree-indent {
+    display: inline-block;
+    width: 18px;
+    flex: 0 0 18px;
+  }
+  .caret {
+    display: inline-flex;
+    width: 16px;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 11px;
+    user-select: none;
+  }
+  .caret.empty { visibility: hidden; }
+
+  .task-name {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .task-name .critical { color: var(--red); font-size: 14px; }
+  .task-name .comment-icon { color: var(--orange); font-size: 12px; }
+  .task-name .edit-icon {
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+  .task-row:hover .edit-icon { opacity: 1; }
+
+  .task-role {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .role-scm { background: var(--blue); }
+  .role-log { background: var(--green); }
+  .role-shift { background: var(--orange); }
+  .role-admin { background: var(--teal); }
+  .role-keeper { background: var(--gray); }
+  .role-dev { background: var(--purple); }
+  .role-holiday { background: repeating-linear-gradient(45deg,#fca5a5,#fca5a5 3px,#fecaca 3px,#fecaca 6px); color: #7f1d1d; }
+
+  .task-dates { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+  .task-progress { font-size: 13px; font-weight: 700; text-align: right; }
+  .task-progress.complete { color: var(--green); }
+  .task-progress.in-progress { color: var(--blue); }
+  .task-progress.not-started { color: var(--text-muted); }
+  .task-progress.overdue { color: var(--red); }
+
+  .timeline-header {
+    display: flex;
+    height: 45px;
+    background: #f8fafc;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  .timeline-day {
+    flex: 0 0 30px;
+    font-size: 10px;
+    color: var(--text-muted);
+    border-left: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .timeline-day.weekend { background: #fef3c7; color: #92400e; }
+  .timeline-day.month-start { background: #e0e7ff; color: #3730a3; font-weight: 600; }
+  .timeline-day .day-num { font-weight: 600; font-size: 11px; }
+  .timeline-day .day-month { font-size: 9px; text-transform: uppercase; }
+
+  .timeline-body { position: relative; }
+  .timeline-row { height: 46px; border-bottom: 1px solid var(--border); position: relative; }
+  .timeline-row.group-row { height: 38px; background: #f1f5f9; border-bottom: 1px solid var(--border); }
+
+  .gantt-bar {
+    position: absolute;
+    top: 8px;
+    height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    display: flex;
+    align-items: center;
+  }
+  .gantt-bar.parent {
+    height: 30px;
+    top: 7px;
+    border: 2px solid rgba(255,255,255,.55);
+  }
+  .gantt-bar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    z-index: 20;
+  }
+  .gantt-bar .progress-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: rgba(255,255,255,0.4);
+    transition: width 0.3s;
+  }
+  .gantt-bar .bar-label {
+    position: relative;
+    z-index: 2;
+    font-size: 10px;
+    color: white;
+    padding: 0 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,.2);
+  }
+  .gantt-bar .critical-badge {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fde047;
+    font-size: 12px;
+    z-index: 3;
+  }
+
+  .gantt-bar.role-scm { background: var(--blue); }
+  .gantt-bar.role-log { background: var(--green); }
+  .gantt-bar.role-shift { background: var(--orange); }
+  .gantt-bar.role-admin { background: var(--teal); }
+  .gantt-bar.role-keeper { background: var(--gray); }
+  .gantt-bar.role-dev { background: var(--purple); }
+  .gantt-bar.role-holiday { background: repeating-linear-gradient(45deg,#fca5a5,#fca5a5 4px,#fecaca 4px,#fecaca 8px); }
+
+  .milestone-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    border-left: 2px dashed var(--red);
+    z-index: 15;
+    pointer-events: none;
+  }
+  .milestone-label {
+    position: absolute;
+    top: -22px;
+    left: 6px;
+    font-size: 10px;
+    color: var(--red);
+    font-weight: 600;
+    white-space: nowrap;
+    background: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  }
+
+  .empty-state {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .side-panel {
+    position: fixed;
+    right: -500px;
+    top: 0;
+    width: 480px;
+    height: 100vh;
+    background: var(--card);
+    box-shadow: -4px 0 20px rgba(0,0,0,.1);
+    transition: right 0.3s ease;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  .side-panel.open { right: 0; }
+
+  .panel-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .panel-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .panel-subtitle { font-size: 13px; color: var(--text-muted); }
+  .panel-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+  .panel-close:hover { color: var(--text); }
+
+  .panel-body { flex: 1; overflow-y: auto; padding: 20px; }
+
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+  }
+  .form-input, .form-select, .form-date {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    background: white;
+  }
+  .form-input:focus, .form-select:focus, .form-date:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(59,130,246,.1);
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .progress-control { display: flex; align-items: center; gap: 12px; }
+  .progress-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: #e2e8f0;
+    outline: none;
+  }
+  .progress-slider:disabled { opacity: 0.55; cursor: not-allowed; }
+  .progress-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--blue);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  }
+  .progress-value { font-size: 18px; font-weight: 700; min-width: 50px; text-align: right; }
+  .auto-note { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+  .checkbox-group label { font-size: 14px; cursor: pointer; }
+
+  .comment-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    margin-bottom: 12px;
+  }
+  .comment-input:focus { outline: none; border-color: var(--blue); }
+
+  .comments-list { margin-top: 16px; }
+  .comment-item {
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--blue);
+  }
+  .comment-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .comment-text { font-size: 13px; line-height: 1.5; }
+
+  .panel-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+  }
+  .panel-footer .btn { flex: 1; padding: 12px; }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 90;
+  }
+  .overlay.show { opacity: 1; pointer-events: auto; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--text);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  .notes-section {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  .notes-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  .notes-textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+  }
+  .notes-textarea:focus { outline: none; border-color: var(--blue); }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+  .hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>WMS: доработка, рейсы, документы и тестовая эксплуатация</h1>
+      <div class="subtitle">26.10.2026 - 16.11.2026 · 3 рабочие недели без 04.11 · тестирование пока на одном ТСД · цель: склад работает в WMS и печатает документы из WMS</div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Задач</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-complete">0</div>
+        <div class="stat-label">Завершено</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-progress">0%</div>
+        <div class="stat-label">Общий прогресс</div>
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="overall-progress" style="width: 0%"></div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="controls-row">
+    <div class="legend" id="legend">
+      <div class="legend-item" data-role="scm">
+        <div class="legend-dot" style="background:var(--blue)"></div>Директор по SCM
+      </div>
+      <div class="legend-item" data-role="log">
+        <div class="legend-dot" style="background:var(--green)"></div>Начальник отдела логистики
+      </div>
+      <div class="legend-item" data-role="shift">
+        <div class="legend-dot" style="background:var(--orange)"></div>Старший смены
+      </div>
+      <div class="legend-item" data-role="admin">
+        <div class="legend-dot" style="background:var(--teal)"></div>Администратор WMS
+      </div>
+      <div class="legend-item" data-role="keeper">
+        <div class="legend-dot" style="background:var(--gray)"></div>Кладовщик
+      </div>
+      <div class="legend-item" data-role="dev">
+        <div class="legend-dot" style="background:var(--purple)"></div>Разработчик / ИТ
+      </div>
+      <div class="legend-item" data-role="holiday">
+        <div class="legend-dot" style="background:var(--red)"></div>Нерабочий день
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="expandAll()">Развернуть все</button>
+      <button class="btn btn-secondary" onclick="collapseAll()">Свернуть все</button>
+      <button class="btn btn-secondary" onclick="exportData()">Экспорт</button>
+    </div>
+  </div>
+  <div class="controls-row">
+    <div class="filters" id="group-filters"></div>
+    <div class="sort-controls">
+      <button class="sort-btn active" data-sort="dates-asc">Раньше позже</button>
+      <button class="sort-btn" data-sort="dates-desc">Позже раньше</button>
+      <button class="sort-btn" data-sort="groups">По модулям</button>
+    </div>
+  </div>
+  <div class="controls-row">
+    <div class="active-filters" id="active-filters"></div>
+  </div>
+</div>
+
+<div class="chart-container">
+  <div class="chart-left" id="chart-left">
+    <div class="row-header" id="row-header">
+      <div class="col" data-col="0">
+        Задача и подпункты
+        <div class="resizer" data-col="0"></div>
+      </div>
+      <div class="col" data-col="1">
+        Ответственный
+        <div class="resizer" data-col="1"></div>
+      </div>
+      <div class="col" data-col="2">
+        Даты
+        <div class="resizer" data-col="2"></div>
+      </div>
+      <div class="col" data-col="3">%</div>
+    </div>
+  </div>
+  <div class="chart-right" id="chart-right">
+    <div class="timeline-header" id="timeline-header"></div>
+    <div class="timeline-body" id="timeline-body"></div>
+  </div>
+</div>
+
+<div class="hint">Клик по стрелке разворачивает или сворачивает подпункты. Клик по строке открывает редактирование. Клик по модулю фильтрует задачи. Клик по роли в легенде фильтрует по ответственному. Прогресс родительской задачи считается по подпунктам.</div>
+
+<div class="notes-section">
+  <div class="notes-title">Общие примечания, допущения и риски</div>
+  <textarea class="notes-textarea" id="project-notes" placeholder="Запишите здесь общие примечания, риски, договорённости..."></textarea>
+</div>
+
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+
+<div class="side-panel" id="side-panel">
+  <div class="panel-header">
+    <div>
+      <div class="panel-title" id="panel-title">Редактирование задачи</div>
+      <div class="panel-subtitle" id="panel-subtitle">Модуль</div>
+    </div>
+    <button class="panel-close" onclick="closePanel()">&times;</button>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label class="form-label">Название задачи</label>
+      <input type="text" class="form-input" id="edit-task-name">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Ответственный</label>
+      <select class="form-select" id="edit-role">
+        <option value="scm">Директор по SCM</option>
+        <option value="log">Начальник отдела логистики</option>
+        <option value="shift">Старший смены</option>
+        <option value="admin">Администратор WMS</option>
+        <option value="keeper">Кладовщик</option>
+        <option value="dev">Разработчик / ИТ</option>
+        <option value="holiday">Нерабочий день</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Дата начала</label>
+        <input type="date" class="form-date" id="edit-start">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Дата окончания</label>
+        <input type="date" class="form-date" id="edit-end">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="edit-critical">
+        <label for="edit-critical">Критический путь</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Процент выполнения</label>
+      <div class="progress-control">
+        <input type="range" class="progress-slider" id="progress-slider" min="0" max="100" value="0">
+        <div class="progress-value" id="progress-value">0%</div>
+      </div>
+      <div class="auto-note" id="auto-note" style="display:none;">Для родительской задачи прогресс считается по подпунктам.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Добавить комментарий</label>
+      <textarea class="comment-input" id="comment-input" placeholder="Введите комментарий..."></textarea>
+      <button class="btn btn-primary" onclick="addComment()" style="width:100%">Добавить комментарий</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Комментарии и примечания</label>
+      <div class="comments-list" id="comments-list"></div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-danger" onclick="deleteTask()">Удалить</button>
+    <button class="btn btn-primary" onclick="saveTask()">Сохранить</button>
+    <button class="btn btn-secondary" onclick="closePanel()">Закрыть</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function parseLocalDate(value) {
+  if (value instanceof Date) {
+    return new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  }
+  const parts = String(value).split('-').map(Number);
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
+function formatISO(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const d = String(dateObj.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function daysBetween(a, b) {
+  const da = parseLocalDate(a);
+  const db = parseLocalDate(b);
+  return Math.round((db - da) / 86400000);
+}
+
+function formatDate(dateStr) {
+  const d = parseLocalDate(dateStr);
+  return d.getDate() + '.' + String(d.getMonth() + 1).padStart(2, '0');
+}
+
+function esc(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+const START = parseLocalDate('2026-10-26');
+const END = parseLocalDate('2026-11-16');
+const START_KEY = formatISO(START);
+const END_KEY = formatISO(END);
+const DAY_W = 30;
+const STORAGE_KEY = 'wms-gantt-v4';
+
+const GROUPS = [
+  "Начало и управление",
+  "ТСД и доступы",
+  "Справочники и QR",
+  "МойСклад и интеграция документов",
+  "Приёмка и размещение",
+  "Сборка и упаковка",
+  "Рейсы, таймслоты и отгрузка",
+  "Документы и печать из WMS",
+  "Инвентаризация",
+  "Пополнение и компрессия",
+  "Тестовая эксплуатация и исправления",
+  "Нерабочие дни"
+];
+
+const roleNames = {
+  scm: "Директор по SCM",
+  log: "Начальник отдела логистики",
+  shift: "Старший смены",
+  admin: "Администратор WMS",
+  keeper: "Кладовщик",
+  dev: "Разработчик / ИТ",
+  holiday: "Нерабочий день"
+};
+
+const initialNotes = `Важно: это план-гипотеза на основе вводных от 26.10.2026. Внешних источников нет.
+
+Допущения:
+- Тестирование пока на одном ТСД.
+- Обмен с МойСкладом пока односторонний: из МойСклад в WMS.
+- Справочники заведены, но неполные.
+- Состав паллеты не передаётся, нужна доработка.
+- Все товары требуют привязки QR-кода.
+- 04.11 не учитываем как рабочий день.
+- Стартовая инвентаризация идёт под руководством начальника отдела логистики и директора по SCM.
+- Цель: склад выполняет операции в WMS и печатает операционные документы из WMS, не заходя в МойСклад.
+
+Риск:
+Полный объём по отгрузке, пополнению зон отбора, компрессии, инвентаризации, двустороннему обмену и сверке остатков может не закрыться за 3 недели. Поэтому план включает ручные обходы, симуляции, верификацию процессов и сбор требований на доработку.
+
+По хотфиксам:
+P1 это блокирующий дефект: теряет данные, ломает остатки, блокирует операцию, нарушает безопасность.
+P2 это критичный дефект основного процесса: мешает работе, нет нормального обхода.
+P3 это неудобство или косметика: можно обойти, идёт в бэклог после запуска.`;
+
+const initialData = [
+  { id: 1, group: "Начало и управление", task: "Начало проекта: цели, границы, роли и ограничения", role: "scm", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 2, group: "Начало и управление", task: "1.1 Определить цели тестовой эксплуатации и границы склада", role: "scm", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: false, parentId: 1, comments: [] },
+  { id: 3, group: "Начало и управление", task: "1.2 Назначить владельцев ролей: SCM, логистика, старший, админ, кладовщик, разработчик", role: "scm", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: false, parentId: 1, comments: [] },
+  { id: 4, group: "Начало и управление", task: "1.3 Зафиксировать ограничения: односторонний обмен, неполные справочники, нет паллет, все QR, одно тестовое ТСД, 04.11 выходной", role: "admin", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: true, parentId: 1, comments: [] },
+  { id: 5, group: "Начало и управление", task: "1.4 Создать реестр рисков, дефектов, предложений и требований к доработкам", role: "admin", start: "2026-10-26", end: "2026-10-27", progress: 0, critical: false, parentId: 1, comments: [] },
+  { id: 6, group: "Начало и управление", task: "1.5 Утвердить критерии готовности к пилоту и к решению о запуске", role: "scm", start: "2026-10-26", end: "2026-10-27", progress: 0, critical: true, parentId: 1, comments: [] },
+
+  { id: 7, group: "Начало и управление", task: "Заморозка тестового контура и бэклога", role: "scm", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 8, group: "Начало и управление", task: "2.1 Закрыть список задач первой недели", role: "log", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: false, parentId: 7, comments: [] },
+  { id: 9, group: "Начало и управление", task: "2.2 Новые пожелания принимать только через реестр", role: "admin", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: false, parentId: 7, comments: [] },
+  { id: 10, group: "Начало и управление", task: "2.3 Согласовать с разработчиком, что правки в код идут после верификации склада", role: "dev", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: true, parentId: 7, comments: [] },
+
+  { id: 11, group: "Начало и управление", task: "Статус недели 1", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 12, group: "Начало и управление", task: "3.1 Проверить выполнение задач по ТСД, QR, приёмке, инвентаризации", role: "admin", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 11, comments: [] },
+  { id: 13, group: "Начало и управление", task: "3.2 Зафиксировать P1/P2 и блокирующие дефекты", role: "dev", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 11, comments: [] },
+  { id: 14, group: "Начало и управление", task: "3.3 Принять решение по старту инвентаризации 02.11", role: "scm", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 11, comments: [] },
+
+  { id: 15, group: "Начало и управление", task: "Решение по пилотным зонам инвентаризации", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 16, group: "Начало и управление", task: "4.1 Определить зоны, ряды, ячейки для первого счёта", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 15, comments: [] },
+  { id: 17, group: "Начало и управление", task: "4.2 Оценить трудозатраты и количество кладовщиков", role: "shift", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: 15, comments: [] },
+  { id: 18, group: "Начало и управление", task: "4.3 Зафиксировать, какие процессы нельзя запускать без счёта", role: "scm", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 15, comments: [] },
+
+  { id: 19, group: "Начало и управление", task: "Решение о запуске: старт или стоп", role: "scm", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 20, group: "Начало и управление", task: "5.1 Проверить отсутствие открытых P1", role: "dev", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 19, comments: [] },
+  { id: 21, group: "Начало и управление", task: "5.2 Проверить, что P2 не блокируют пилотные операции", role: "log", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 19, comments: [] },
+  { id: 22, group: "Начало и управление", task: "5.3 Проверить тестовое ТСД, бейдж, сканер, этикетки", role: "admin", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 19, comments: [] },
+  { id: 23, group: "Начало и управление", task: "5.4 Проверить стартовую инвентаризацию по пилотным зонам", role: "log", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 19, comments: [] },
+  { id: 24, group: "Начало и управление", task: "5.5 Проверить наличие печатных форм рейсов и документов в WMS", role: "admin", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 19, comments: [] },
+  { id: 25, group: "Начало и управление", task: "5.6 Утвердить дату начала тестовой эксплуатации или перенос", role: "scm", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 19, comments: [] },
+
+  { id: 26, group: "Начало и управление", task: "Ревизия бэклога и доработок", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 27, group: "Начало и управление", task: "6.1 Разобрать предложения склада за пилот", role: "shift", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 26, comments: [] },
+  { id: 28, group: "Начало и управление", task: "6.2 Оценить трудозатраты по отгрузке, пополнению, компрессии, обмену", role: "dev", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 26, comments: [] },
+  { id: 29, group: "Начало и управление", task: "6.3 Сформировать план второй волны", role: "scm", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 26, comments: [] },
+
+  { id: 30, group: "Начало и управление", task: "Итоговый отчёт и решение по запуску", role: "scm", start: "2026-11-16", end: "2026-11-16", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 31, group: "Начало и управление", task: "7.1 Собрать метрики: заказы, приёмки, расхождения, время операций", role: "log", start: "2026-11-16", end: "2026-11-16", progress: 0, critical: false, parentId: 30, comments: [] },
+  { id: 32, group: "Начало и управление", task: "7.2 Перечислить закрытые и открытые дефекты", role: "dev", start: "2026-11-16", end: "2026-11-16", progress: 0, critical: false, parentId: 30, comments: [] },
+  { id: 33, group: "Начало и управление", task: "7.3 Дать рекомендацию: промышленный запуск, продление пилота, стоп", role: "scm", start: "2026-11-16", end: "2026-11-16", progress: 0, critical: true, parentId: 30, comments: [] },
+
+  { id: 40, group: "ТСД и доступы", task: "Обновление тестового ТСД и компьютера", role: "admin", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 41, group: "ТСД и доступы", task: "1.1 Проверить текущую версию на тестовом ТСД", role: "admin", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: true, parentId: 40, comments: [] },
+  { id: 42, group: "ТСД и доступы", task: "1.2 Обновить тестовую версию и зафиксировать номер сборки", role: "dev", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: true, parentId: 40, comments: [] },
+  { id: 43, group: "ТСД и доступы", task: "1.3 Проверить вход, роли, привязку к складу", role: "admin", start: "2026-10-26", end: "2026-10-26", progress: 0, critical: true, parentId: 40, comments: [] },
+
+  { id: 44, group: "ТСД и доступы", task: "Роли, бейджи, PIN, вход на устройстве", role: "admin", start: "2026-10-27", end: "2026-10-27", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 45, group: "ТСД и доступы", task: "2.1 Проверить матрицу ролей: кладовщик, старший, логист, админ", role: "admin", start: "2026-10-27", end: "2026-10-27", progress: 0, critical: false, parentId: 44, comments: [] },
+  { id: 46, group: "ТСД и доступы", task: "2.2 Напечатать новый бейдж и забрать старый", role: "shift", start: "2026-10-27", end: "2026-10-28", progress: 0, critical: false, parentId: 44, comments: [] },
+  { id: 47, group: "ТСД и доступы", task: "2.3 Проверить вход старшего и админа с PIN", role: "admin", start: "2026-10-27", end: "2026-10-27", progress: 0, critical: false, parentId: 44, comments: [] },
+  { id: 48, group: "ТСД и доступы", task: "2.4 Проверить блокировку после неизвестных бейджей", role: "admin", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: false, parentId: 44, comments: [] },
+
+  { id: 49, group: "ТСД и доступы", task: "Тест сканера, камеры и чтения этикеток", role: "keeper", start: "2026-10-27", end: "2026-10-28", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 50, group: "ТСД и доступы", task: "3.1 Прогнать проверку сканера на тестовом ТСД", role: "keeper", start: "2026-10-27", end: "2026-10-27", progress: 0, critical: true, parentId: 49, comments: [] },
+  { id: 51, group: "ТСД и доступы", task: "3.2 Проверить штрихкод товара, коробку, SSCC, ITF-14, ЧЗ, QR производителя", role: "shift", start: "2026-10-27", end: "2026-10-28", progress: 0, critical: true, parentId: 49, comments: [] },
+  { id: 52, group: "ТСД и доступы", task: "3.3 Проверить чтение этикеток ячеек, зон VI/V, рампы R-01", role: "log", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: true, parentId: 49, comments: [] },
+  { id: 53, group: "ТСД и доступы", task: "3.4 Зафиксировать нечитающиеся этикетки и перепечатать", role: "admin", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: false, parentId: 49, comments: [] },
+
+  { id: 54, group: "ТСД и доступы", task: "Мониторинг версий и логов в пилоте", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 55, group: "ТСД и доступы", task: "4.1 Ежедневно сверять версию на тестовом ТСД", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 54, comments: [] },
+  { id: 56, group: "ТСД и доступы", task: "4.2 Собирать логи ошибок и очереди offline", role: "dev", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 54, comments: [] },
+  { id: 57, group: "ТСД и доступы", task: "4.3 Фиксировать отклонения по времени отправки операций", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 54, comments: [] },
+
+  { id: 60, group: "Справочники и QR", task: "Аудит справочников", role: "admin", start: "2026-10-27", end: "2026-10-28", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 61, group: "Справочники и QR", task: "1.1 Выгрузить список товаров из WMS и сравнить с нужным объёмом", role: "admin", start: "2026-10-27", end: "2026-10-27", progress: 0, critical: true, parentId: 60, comments: [] },
+  { id: 62, group: "Справочники и QR", task: "1.2 Найти товары без штрихкода, QR, срока, кратности, ОСГ", role: "log", start: "2026-10-27", end: "2026-10-28", progress: 0, critical: true, parentId: 60, comments: [] },
+  { id: 63, group: "Справочники и QR", task: "1.3 Отметить товары для пилота и товары вне объёма", role: "log", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: false, parentId: 60, comments: [] },
+
+  { id: 64, group: "Справочники и QR", task: "Реестр товаров без QR и приоритет пакетов", role: "log", start: "2026-10-28", end: "2026-10-29", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 65, group: "Справочники и QR", task: "2.1 Сформировать список SKU для QR пакета 1", role: "log", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: true, parentId: 64, comments: [] },
+  { id: 66, group: "Справочники и QR", task: "2.2 Сформировать список SKU для пакета 2 после инвентаризации", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: false, parentId: 64, comments: [] },
+  { id: 67, group: "Справочники и QR", task: "2.3 Сформировать список SKU для пакета 3 по оборачиваемости", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: false, parentId: 64, comments: [] },
+
+  { id: 68, group: "Справочники и QR", task: "Печать и проверка этикеток ячеек, зон VI, V, R-01", role: "admin", start: "2026-10-29", end: "2026-10-30", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 69, group: "Справочники и QR", task: "3.1 Напечатать этикетки ячеек пилотных зон", role: "admin", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 68, comments: [] },
+  { id: 70, group: "Справочники и QR", task: "3.2 Напечатать этикетки мест упаковки VI и V", role: "admin", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 68, comments: [] },
+  { id: 71, group: "Справочники и QR", task: "3.3 Напечатать этикетку рампы R-01", role: "admin", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 68, comments: [] },
+  { id: 72, group: "Справочники и QR", task: "3.4 Обклеить и проверить сканом", role: "keeper", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 68, comments: [] },
+
+  { id: 73, group: "Справочники и QR", task: "QR пакет 1: приёмки и топовые SKU", role: "shift", start: "2026-10-29", end: "2026-10-30", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 74, group: "Справочники и QR", task: "4.1 Старший привязывает QR к товарам через привязку штрихкода", role: "shift", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 73, comments: [] },
+  { id: 75, group: "Справочники и QR", task: "4.2 Проверить, что QR не путается с номером коробки", role: "keeper", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 73, comments: [] },
+  { id: 76, group: "Справочники и QR", task: "4.3 Внести привязки в реестр для передачи в МойСклад", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 73, comments: [] },
+
+  { id: 77, group: "Справочники и QR", task: "QR пакет 2: неизвестные товары и излишки", role: "shift", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 78, group: "Справочники и QR", task: "5.1 Разобрать неизвестные позиции после счёта", role: "log", start: "2026-11-05", end: "2026-11-05", progress: 0, critical: false, parentId: 77, comments: [] },
+  { id: 79, group: "Справочники и QR", task: "5.2 Привязать QR или штрихкод к найденным товарам", role: "shift", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: false, parentId: 77, comments: [] },
+  { id: 80, group: "Справочники и QR", task: "5.3 Для товаров без кода создать временную пометку по правилам склада", role: "admin", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: false, parentId: 77, comments: [] },
+
+  { id: 81, group: "Справочники и QR", task: "QR пакет 3: остаток каталога по приоритету", role: "keeper", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 82, group: "Справочники и QR", task: "6.1 Продолжать привязку по списку приоритета", role: "shift", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 81, comments: [] },
+  { id: 83, group: "Справочники и QR", task: "6.2 Ежедневно обновлять реестр привязок", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 81, comments: [] },
+  { id: 84, group: "Справочники и QR", task: "6.3 Не блокировать пилот из-за полного каталога, если приоритетные SKU закрыты", role: "scm", start: "2026-11-09", end: "2026-11-09", progress: 0, critical: true, parentId: 81, comments: [] },
+
+  { id: 85, group: "Справочники и QR", task: "Передача привязанных штрихкодов в карточки МойСклад", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 86, group: "Справочники и QR", task: "7.1 Выгрузить реестр привязано на складе", role: "admin", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 85, comments: [] },
+  { id: 87, group: "Справочники и QR", task: "7.2 Логист вносит коды в карточки товаров в МойСклад", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 85, comments: [] },
+  { id: 88, group: "Справочники и QR", task: "7.3 Проверить, что строки исчезают из реестра после синхронизации", role: "dev", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 85, comments: [] },
+
+  { id: 90, group: "МойСклад и интеграция документов", task: "Проверка односторонней загрузки из МойСклад", role: "dev", start: "2026-10-28", end: "2026-10-29", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 91, group: "МойСклад и интеграция документов", task: "1.1 Проверить приход приёмок, заказов, справочников каждые 5 минут", role: "dev", start: "2026-10-28", end: "2026-10-28", progress: 0, critical: true, parentId: 90, comments: [] },
+  { id: 92, group: "МойСклад и интеграция документов", task: "1.2 Проверить статусы: проведено, удалено, перенесено", role: "log", start: "2026-10-28", end: "2026-10-29", progress: 0, critical: true, parentId: 90, comments: [] },
+  { id: 93, group: "МойСклад и интеграция документов", task: "1.3 Зафиксировать, какие документы WMS пока не может напечатать без МойСклад", role: "admin", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 90, comments: [] },
+
+  { id: 94, group: "МойСклад и интеграция документов", task: "Инструкция по ручным статусам в МойСклад", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 95, group: "МойСклад и интеграция документов", task: "2.1 Описать, кто и когда ставит статусы вручную", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: false, parentId: 94, comments: [] },
+  { id: 96, group: "МойСклад и интеграция документов", task: "2.2 Создать чек-лист для логиста на конец смены", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: false, parentId: 94, comments: [] },
+  { id: 97, group: "МойСклад и интеграция документов", task: "2.3 Предупредить склад: не менять статусы в МойСклад во время операций", role: "shift", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: false, parentId: 94, comments: [] },
+
+  { id: 98, group: "МойСклад и интеграция документов", task: "Тест приёмок с датами и партиями", role: "keeper", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 99, group: "МойСклад и интеграция документов", task: "3.1 Проверить подстановку дат из поля Даты и партии", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 98, comments: [] },
+  { id: 100, group: "МойСклад и интеграция документов", task: "3.2 Проверить выбор нескольких партий", role: "keeper", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 98, comments: [] },
+  { id: 101, group: "МойСклад и интеграция документов", task: "3.3 Проверить пометку дата не совпала с МойСкладом", role: "shift", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 98, comments: [] },
+
+  { id: 102, group: "МойСклад и интеграция документов", task: "Тест ошибок поля Даты и партии", role: "log", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 103, group: "МойСклад и интеграция документов", task: "4.1 Создать тестовые строки с неизвестным артикулом и неверной датой", role: "dev", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 102, comments: [] },
+  { id: 104, group: "МойСклад и интеграция документов", task: "4.2 Проверить отображение причин в контроле склада", role: "admin", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 102, comments: [] },
+  { id: 105, group: "МойСклад и интеграция документов", task: "4.3 Сформировать требование к валидации на стороне МойСклад или WMS", role: "dev", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 102, comments: [] },
+
+  { id: 106, group: "МойСклад и интеграция документов", task: "Требования к двустороннему обмену и сверке остатков", role: "dev", start: "2026-11-12", end: "2026-11-13", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 107, group: "МойСклад и интеграция документов", task: "5.1 Описать сущности обмена: приёмка, заказ, рейс, таймслот, отгрузка, возврат, расхождение", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: true, parentId: 106, comments: [] },
+  { id: 108, group: "МойСклад и интеграция документов", task: "5.2 Описать направления: МойСклад в WMS, WMS в МойСклад, файлы или API", role: "dev", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: true, parentId: 106, comments: [] },
+  { id: 109, group: "МойСклад и интеграция документов", task: "5.3 Описать триггеры: по событию, каждые 5 минут, вручную", role: "dev", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 106, comments: [] },
+  { id: 110, group: "МойСклад и интеграция документов", task: "5.4 Описать конфликтные правила: кто главный по остаткам, документам, статусам", role: "scm", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: true, parentId: 106, comments: [] },
+  { id: 111, group: "МойСклад и интеграция документов", task: "5.5 Согласовать формат сверки остатков: SKU, партия, срок, ячейка, количество", role: "log", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: true, parentId: 106, comments: [] },
+
+  { id: 112, group: "МойСклад и интеграция документов", task: "Мониторинг обмена и ручных статусов в пилоте", role: "log", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 113, group: "МойСклад и интеграция документов", task: "6.1 Ежедневно проверять журнал загрузки документов", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 112, comments: [] },
+  { id: 114, group: "МойСклад и интеграция документов", task: "6.2 Сверять статусы заказов и рейсов", role: "log", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 112, comments: [] },
+  { id: 115, group: "МойСклад и интеграция документов", task: "6.3 Фиксировать случаи, когда склад уходил в МойСклад за документом", role: "shift", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 112, comments: [] },
+
+  { id: 116, group: "МойСклад и интеграция документов", task: "Проектирование интеграции документов для работы только в WMS", role: "dev", start: "2026-10-29", end: "2026-11-03", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 117, group: "МойСклад и интеграция документов", task: "7.1 Определить документы для печати из WMS: накладная, лист сбора, ярлык места, рейсовая ведомость, акт расхождения, этикетка короба или паллеты", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 116, comments: [] },
+  { id: 118, group: "МойСклад и интеграция документов", task: "7.2 Проверить наличие данных в WMS для каждой печатной формы", role: "admin", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 116, comments: [] },
+  { id: 119, group: "МойСклад и интеграция документов", task: "7.3 Спроектировать входящий обмен из МойСклад: документы, реквизиты, контрагенты, груз, транспорт", role: "dev", start: "2026-10-31", end: "2026-10-31", progress: 0, critical: true, parentId: 116, comments: [] },
+  { id: 120, group: "МойСклад и интеграция документов", task: "7.4 Спроектировать исходящий обмен из WMS: статусы, факт отгрузки, места, рейсы, расхождения", role: "dev", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: true, parentId: 116, comments: [] },
+  { id: 121, group: "МойСклад и интеграция документов", task: "7.5 Если API МойСклад не подтверждено, предусмотреть файловый обмен или ручной импорт и экспорт как временный обход", role: "dev", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 116, comments: [] },
+
+  { id: 130, group: "Приёмка и размещение", task: "Тест приёмки коробами, ЧЗ, расхождения", role: "keeper", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 131, group: "Приёмка и размещение", task: "1.1 Принять тестовую поставку сканом короба", role: "keeper", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 130, comments: [] },
+  { id: 132, group: "Приёмка и размещение", task: "1.2 Проверить кратность, даты, партию, ЧЗ", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 130, comments: [] },
+  { id: 133, group: "Приёмка и размещение", task: "1.3 Проверить акт расхождения при несовпадении с планом", role: "shift", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 130, comments: [] },
+  { id: 134, group: "Приёмка и размещение", task: "1.4 Проверить, что лишнее или недостача не ломают остаток", role: "admin", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 130, comments: [] },
+
+  { id: 135, group: "Приёмка и размещение", task: "Фиксация: паллета одним сканом не используется до доработки", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 136, group: "Приёмка и размещение", task: "2.1 Сообщить кладовщикам принимать по коробам", role: "shift", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 135, comments: [] },
+  { id: 137, group: "Приёмка и размещение", task: "2.2 Внести требование на передачу состава паллеты в бэклог", role: "dev", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 135, comments: [] },
+
+  { id: 138, group: "Приёмка и размещение", task: "Тест размещения и перемещения", role: "keeper", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 139, group: "Приёмка и размещение", task: "3.1 Проверить подсказку ячейки по партии, товару, маршруту", role: "log", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 138, comments: [] },
+  { id: 140, group: "Приёмка и размещение", task: "3.2 Переместить товар из ячейки в ячейку тремя сканами", role: "keeper", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 138, comments: [] },
+  { id: 141, group: "Приёмка и размещение", task: "3.3 Проверить выбор партии по сроку", role: "shift", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 138, comments: [] },
+
+  { id: 142, group: "Приёмка и размещение", task: "Тест карантина и проблем с ЧЗ", role: "shift", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 143, group: "Приёмка и размещение", task: "4.1 Поместить брак, пересорт, проблему ЧЗ в карантин с причиной", role: "keeper", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: 142, comments: [] },
+  { id: 144, group: "Приёмка и размещение", task: "4.2 Проверить, что карантинный товар не попадает в сборку", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 142, comments: [] },
+
+  { id: 145, group: "Приёмка и размещение", task: "Описание требований к составу паллеты", role: "dev", start: "2026-10-29", end: "2026-10-30", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 146, group: "Приёмка и размещение", task: "5.1 Определить формат кода паллеты и вложенность коробов и штук", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: false, parentId: 145, comments: [] },
+  { id: 147, group: "Приёмка и размещение", task: "5.2 Указать, какие данные должен передавать поставщик или МойСклад", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 145, comments: [] },
+  { id: 148, group: "Приёмка и размещение", task: "5.3 Спроектировать приёмку паллеты одним сканом после получения состава", role: "dev", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 145, comments: [] },
+
+  { id: 149, group: "Приёмка и размещение", task: "Пилот: приёмка, размещение, перемещение, карантин", role: "keeper", start: "2026-11-09", end: "2026-11-11", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 150, group: "Приёмка и размещение", task: "6.1 Выполнять реальные приёмки только через WMS", role: "keeper", start: "2026-11-09", end: "2026-11-11", progress: 0, critical: true, parentId: 149, comments: [] },
+  { id: 151, group: "Приёмка и размещение", task: "6.2 Фиксировать вопросы и ошибки через модуль WMS", role: "shift", start: "2026-11-09", end: "2026-11-11", progress: 0, critical: false, parentId: 149, comments: [] },
+  { id: 152, group: "Приёмка и размещение", task: "6.3 Ежедневно сверять факт приёмки с данными из МойСклад", role: "log", start: "2026-11-09", end: "2026-11-11", progress: 0, critical: true, parentId: 149, comments: [] },
+
+  { id: 160, group: "Сборка и упаковка", task: "UAT сборки по ячейкам, FEFO, бронь", role: "shift", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 161, group: "Сборка и упаковка", task: "1.1 Выдать тестовый заказ через следующее задание", role: "shift", start: "2026-11-05", end: "2026-11-05", progress: 0, critical: true, parentId: 160, comments: [] },
+  { id: 162, group: "Сборка и упаковка", task: "1.2 Проверить обязательный скан ячейки и товара", role: "keeper", start: "2026-11-05", end: "2026-11-05", progress: 0, critical: true, parentId: 160, comments: [] },
+  { id: 163, group: "Сборка и упаковка", task: "1.3 Проверить FEFO и ОСГ клиента", role: "log", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: true, parentId: 160, comments: [] },
+  { id: 164, group: "Сборка и упаковка", task: "1.4 Проверить бронь товар под заказ не трогать", role: "keeper", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 160, comments: [] },
+  { id: 165, group: "Сборка и упаковка", task: "1.5 Проверить, что из карантина взять нельзя", role: "shift", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 160, comments: [] },
+
+  { id: 166, group: "Сборка и упаковка", task: "Тест доставки в упаковку и МП под камерой", role: "keeper", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 167, group: "Сборка и упаковка", task: "2.1 После сборки отвезти в VI-00 или VI-03 и просканировать место", role: "keeper", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: false, parentId: 166, comments: [] },
+  { id: 168, group: "Сборка и упаковка", task: "2.2 Проверить задание на упаковку и освобождение места", role: "shift", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: false, parentId: 166, comments: [] },
+  { id: 169, group: "Сборка и упаковка", task: "2.3 Для МП проверить место V-01...V-04 и сканы после оклейки", role: "log", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: false, parentId: 166, comments: [] },
+
+  { id: 170, group: "Сборка и упаковка", task: "Пилот: сборка и упаковка", role: "keeper", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 171, group: "Сборка и упаковка", task: "3.1 Собирать реальные заказы по WMS", role: "keeper", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: 170, comments: [] },
+  { id: 172, group: "Сборка и упаковка", task: "3.2 Старший контролирует очередь, расхождения, возврат в сборку", role: "shift", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: 170, comments: [] },
+  { id: 173, group: "Сборка и упаковка", task: "3.3 Логист проверяет, что статусы в МойСклад ставятся по регламенту", role: "log", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: false, parentId: 170, comments: [] },
+
+  { id: 180, group: "Рейсы, таймслоты и отгрузка", task: "Создать справочник таймслотов наемного транспорта", role: "log", start: "2026-11-02", end: "2026-11-03", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 181, group: "Рейсы, таймслоты и отгрузка", task: "1.1 Определить рабочие окна приёма и отгрузки по дням", role: "log", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: true, parentId: 180, comments: [] },
+  { id: 182, group: "Рейсы, таймслоты и отгрузка", task: "1.2 Завести типы транспорта: газель, фура, рефрижератор, малогабарит", role: "log", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 180, comments: [] },
+  { id: 183, group: "Рейсы, таймслоты и отгрузка", task: "1.3 Задать вместимость: палеты, короба, места, вес или объём если нужны", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: 180, comments: [] },
+  { id: 184, group: "Рейсы, таймслоты и отгрузка", task: "1.4 Задать правила: cut-off time, минимальное время на погрузку, перенос слота", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 180, comments: [] },
+  { id: 185, group: "Рейсы, таймслоты и отгрузка", task: "1.5 Утвердить календарь таймслотов на пилот", role: "scm", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 180, comments: [] },
+
+  { id: 186, group: "Рейсы, таймслоты и отгрузка", task: "Создать рейсы в WMS и связать с заказами", role: "log", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 187, group: "Рейсы, таймслоты и отгрузка", task: "2.1 Завести тестовый рейс: дата, таймслот, перевозчик, машина, водитель", role: "log", start: "2026-11-05", end: "2026-11-05", progress: 0, critical: true, parentId: 186, comments: [] },
+  { id: 188, group: "Рейсы, таймслоты и отгрузка", task: "2.2 Привязать к рейсу упакованные заказы и места", role: "shift", start: "2026-11-05", end: "2026-11-05", progress: 0, critical: true, parentId: 186, comments: [] },
+  { id: 189, group: "Рейсы, таймслоты и отгрузка", task: "2.3 Проверить, что заказ нельзя дважды включить в разные рейсы", role: "dev", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 186, comments: [] },
+  { id: 190, group: "Рейсы, таймслоты и отгрузка", task: "2.4 Проверить изменение рейса до погрузки и блокировку после погрузки", role: "log", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: false, parentId: 186, comments: [] },
+
+  { id: 191, group: "Рейсы, таймслоты и отгрузка", task: "Настроить погрузку по WMS без обращения в МойСклад", role: "log", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 192, group: "Рейсы, таймслоты и отгрузка", task: "3.1 Склад сканирует рампу R-01, рейс, ячейку или место, количество мест", role: "keeper", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: 191, comments: [] },
+  { id: 193, group: "Рейсы, таймслоты и отгрузка", task: "3.2 WMS формирует статус загружено и отгружено внутри системы", role: "dev", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: 191, comments: [] },
+  { id: 194, group: "Рейсы, таймслоты и отгрузка", task: "3.3 Печатать документы погрузки из WMS", role: "admin", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: 191, comments: [] },
+  { id: 195, group: "Рейсы, таймслоты и отгрузка", task: "3.4 Зафиксировать, что оператор склада не заходит в МойСклад для печати", role: "shift", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: 191, comments: [] },
+
+  { id: 196, group: "Рейсы, таймслоты и отгрузка", task: "Пилот: ручная отгрузка и статусы", role: "shift", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 197, group: "Рейсы, таймслоты и отгрузка", task: "4.1 Отгружать реальные рейсы по инструкции WMS", role: "log", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: 196, comments: [] },
+  { id: 198, group: "Рейсы, таймслоты и отгрузка", task: "4.2 Старший контролирует стадии: упакован, в рейсе, загружен, отгружен", role: "shift", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: 196, comments: [] },
+  { id: 199, group: "Рейсы, таймслоты и отгрузка", task: "4.3 Логист сверяет факт отгрузки с данными из МойСклад и ставит статусы по регламенту", role: "log", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: 196, comments: [] },
+  { id: 200, group: "Рейсы, таймслоты и отгрузка", task: "4.4 Фиксировать каждый выход в МойСклад как дефект процесса", role: "admin", start: "2026-11-10", end: "2026-11-13", progress: 0, critical: true, parentId: 196, comments: [] },
+
+  { id: 201, group: "Рейсы, таймслоты и отгрузка", task: "Требования к доработке отгрузки и транспорта", role: "dev", start: "2026-11-12", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 202, group: "Рейсы, таймслоты и отгрузка", task: "5.1 Описать желаемый процесс: заказ, упаковка, рейс, таймслот, погрузка, отгрузка, документ, статус", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: true, parentId: 201, comments: [] },
+  { id: 203, group: "Рейсы, таймслоты и отгрузка", task: "5.2 Указать недостающие экраны и поля: перевозчик, машина, водитель, пломба, места, время прибытия", role: "admin", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 201, comments: [] },
+  { id: 204, group: "Рейсы, таймслоты и отгрузка", task: "5.3 Согласовать интеграцию статусов и документов с МойСклад", role: "dev", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: true, parentId: 201, comments: [] },
+
+  { id: 210, group: "Документы и печать из WMS", task: "Реестр документов, которые склад печатает в процессе", role: "log", start: "2026-10-29", end: "2026-10-30", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 211, group: "Документы и печать из WMS", task: "1.1 Перечислить документы: приёмка, размещение, сборка, упаковка, отгрузка, рейс, инвентаризация, карантин, списание", role: "log", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 210, comments: [] },
+  { id: 212, group: "Документы и печать из WMS", task: "1.2 Отметить, где сейчас документ берётся из МойСклад", role: "admin", start: "2026-10-29", end: "2026-10-29", progress: 0, critical: true, parentId: 210, comments: [] },
+  { id: 213, group: "Документы и печать из WMS", task: "1.3 Определить обязательные реквизиты для печати", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 210, comments: [] },
+
+  { id: 214, group: "Документы и печать из WMS", task: "Шаблоны печатных форм в WMS", role: "admin", start: "2026-10-31", end: "2026-11-03", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 215, group: "Документы и печать из WMS", task: "2.1 Создать шаблон листа сбора или подбора", role: "dev", start: "2026-10-31", end: "2026-10-31", progress: 0, critical: true, parentId: 214, comments: [] },
+  { id: 216, group: "Документы и печать из WMS", task: "2.2 Создать шаблон ярлыка места и короба", role: "admin", start: "2026-10-31", end: "2026-11-01", progress: 0, critical: true, parentId: 214, comments: [] },
+  { id: 217, group: "Документы и печать из WMS", task: "2.3 Создать шаблон рейсовой ведомости и листа погрузки", role: "dev", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: true, parentId: 214, comments: [] },
+  { id: 218, group: "Документы и печать из WMS", task: "2.4 Создать шаблон акта расхождения или карантина", role: "admin", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: false, parentId: 214, comments: [] },
+  { id: 219, group: "Документы и печать из WMS", task: "2.5 Проверить печать на термопринтере и A4", role: "keeper", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 214, comments: [] },
+
+  { id: 220, group: "Документы и печать из WMS", task: "Обеспечить работу склада только в WMS для печати документов", role: "admin", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 221, group: "Документы и печать из WMS", task: "3.1 Включить печать документов из карточек заказа, рейса, приёмки в WMS", role: "dev", start: "2026-11-05", end: "2026-11-05", progress: 0, critical: true, parentId: 220, comments: [] },
+  { id: 222, group: "Документы и печать из WMS", task: "3.2 Скрыть или запретить складу необходимость открывать МойСклад для операций", role: "log", start: "2026-11-05", end: "2026-11-05", progress: 0, critical: true, parentId: 220, comments: [] },
+  { id: 223, group: "Документы и печать из WMS", task: "3.3 Обучить старших и кладовщиков печатать документы из WMS", role: "shift", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 220, comments: [] },
+  { id: 224, group: "Документы и печать из WMS", task: "3.4 Зафиксировать исключение: при падении WMS использовать резервный порядок", role: "scm", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 220, comments: [] },
+
+  { id: 225, group: "Документы и печать из WMS", task: "Тест документооборота в пилоте", role: "log", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 226, group: "Документы и печать из WMS", task: "4.1 Проверить, что каждый ключевой документ можно напечатать из WMS", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 225, comments: [] },
+  { id: 227, group: "Документы и печать из WMS", task: "4.2 Сверить печатные данные с данными из МойСклад", role: "log", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 225, comments: [] },
+  { id: 228, group: "Документы и печать из WMS", task: "4.3 Собрать замечания по форматам и обязательным полям", role: "shift", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: false, parentId: 225, comments: [] },
+
+  { id: 230, group: "Инвентаризация", task: "Подготовка заданий, рядов и карт", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 231, group: "Инвентаризация", task: "1.1 Определить пилотные зоны и исключить карантин или зарезервированные ячейки если нужно", role: "log", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 230, comments: [] },
+  { id: 232, group: "Инвентаризация", task: "1.2 Распределить ряды между кладовщиками", role: "shift", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 230, comments: [] },
+  { id: 233, group: "Инвентаризация", task: "1.3 Настроить задания в WMS и проверить слепой счёт", role: "admin", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: true, parentId: 230, comments: [] },
+
+  { id: 234, group: "Инвентаризация", task: "Пробный пересчёт одной зоны", role: "keeper", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 235, group: "Инвентаризация", task: "2.1 Посчитать 10-20 ячеек", role: "keeper", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 234, comments: [] },
+  { id: 236, group: "Инвентаризация", task: "2.2 Проверить ввод дат, коробов, палет, неизвестного товара", role: "shift", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 234, comments: [] },
+  { id: 237, group: "Инвентаризация", task: "2.3 Зафиксировать неудобства и ошибки", role: "admin", start: "2026-10-30", end: "2026-10-30", progress: 0, critical: false, parentId: 234, comments: [] },
+
+  { id: 238, group: "Инвентаризация", task: "Стартовая инвентаризация, часть 1", role: "log", start: "2026-11-02", end: "2026-11-03", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 239, group: "Инвентаризация", task: "3.1 Начать счёт под руководством начальника логистики и директора по SCM", role: "scm", start: "2026-11-02", end: "2026-11-02", progress: 0, critical: true, parentId: 238, comments: [] },
+  { id: 240, group: "Инвентаризация", task: "3.2 Кладовщики считают слепым методом", role: "keeper", start: "2026-11-02", end: "2026-11-03", progress: 0, critical: true, parentId: 238, comments: [] },
+  { id: 241, group: "Инвентаризация", task: "3.3 Старший собирает расхождения и назначает повторные счета", role: "shift", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 238, comments: [] },
+  { id: 242, group: "Инвентаризация", task: "3.4 Логист контролирует даты, партии, неизвестный товар", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: true, parentId: 238, comments: [] },
+
+  { id: 243, group: "Инвентаризация", task: "Стартовая инвентаризация, часть 2", role: "log", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 244, group: "Инвентаризация", task: "4.1 Досчитать оставшиеся пилотные зоны", role: "keeper", start: "2026-11-05", end: "2026-11-06", progress: 0, critical: true, parentId: 243, comments: [] },
+  { id: 245, group: "Инвентаризация", task: "4.2 Разобрать излишки без даты и неизвестные товары", role: "shift", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: true, parentId: 243, comments: [] },
+  { id: 246, group: "Инвентаризация", task: "4.3 Подготовить данные к сверке", role: "admin", start: "2026-11-06", end: "2026-11-06", progress: 0, critical: false, parentId: 243, comments: [] },
+
+  { id: 247, group: "Инвентаризация", task: "Повторные пересчёты", role: "keeper", start: "2026-11-09", end: "2026-11-09", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 248, group: "Инвентаризация", task: "5.1 Пересчитать спорные ячейки", role: "keeper", start: "2026-11-09", end: "2026-11-09", progress: 0, critical: false, parentId: 247, comments: [] },
+  { id: 249, group: "Инвентаризация", task: "5.2 Проверить, что товар под заказ не тронут", role: "shift", start: "2026-11-09", end: "2026-11-09", progress: 0, critical: true, parentId: 247, comments: [] },
+  { id: 250, group: "Инвентаризация", task: "5.3 Закрыть расхождения или зафиксировать причину", role: "log", start: "2026-11-09", end: "2026-11-09", progress: 0, critical: false, parentId: 247, comments: [] },
+
+  { id: 251, group: "Инвентаризация", task: "Сверка с МойСклад до проводки", role: "log", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 252, group: "Инвентаризация", task: "6.1 Выгрузить остатки WMS по ячейкам", role: "admin", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: 251, comments: [] },
+  { id: 253, group: "Инвентаризация", task: "6.2 Сравнить с учётом МойСклад по SKU, партии, сроку", role: "log", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: 251, comments: [] },
+  { id: 254, group: "Инвентаризация", task: "6.3 Разделить расхождения: ошибка счёта, ошибка справочника, ошибка приёмки, ошибка сборки", role: "shift", start: "2026-11-10", end: "2026-11-10", progress: 0, critical: true, parentId: 251, comments: [] },
+
+  { id: 255, group: "Инвентаризация", task: "Проводка или ручной перенос остатков", role: "admin", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 256, group: "Инвентаризация", task: "7.1 Если модуль позволяет, провести инвентаризацию в WMS", role: "shift", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: true, parentId: 255, comments: [] },
+  { id: 257, group: "Инвентаризация", task: "7.2 Если нет, выполнить ручной перенос по утверждённому реестру", role: "dev", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: true, parentId: 255, comments: [] },
+  { id: 258, group: "Инвентаризация", task: "7.3 Зафиксировать итоговые остатки для пилота", role: "log", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: true, parentId: 255, comments: [] },
+
+  { id: 259, group: "Инвентаризация", task: "Требования к доработке инвентаризации", role: "dev", start: "2026-11-12", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 260, group: "Инвентаризация", task: "8.1 Описать недостающие сценарии: автоматическая сверка, акты, причины, права, история", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 259, comments: [] },
+  { id: 261, group: "Инвентаризация", task: "8.2 Оценить доработку", role: "dev", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: false, parentId: 259, comments: [] },
+
+  { id: 270, group: "Пополнение и компрессия", task: "Симуляция пополнения зон отбора и правил min/max", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 271, group: "Пополнение и компрессия", task: "1.1 Определить зоны отбора и хранения", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: 270, comments: [] },
+  { id: 272, group: "Пополнение и компрессия", task: "1.2 Задать минимальный и максимальный уровень по SKU", role: "log", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: 270, comments: [] },
+  { id: 273, group: "Пополнение и компрессия", task: "1.3 Смоделировать задачу пополнения вручную", role: "keeper", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: 270, comments: [] },
+  { id: 274, group: "Пополнение и компрессия", task: "1.4 Зафиксировать требования к автоматической задаче", role: "dev", start: "2026-11-03", end: "2026-11-03", progress: 0, critical: false, parentId: 270, comments: [] },
+
+  { id: 275, group: "Пополнение и компрессия", task: "Проверка пополнения на реальных остатках", role: "keeper", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 276, group: "Пополнение и компрессия", task: "2.1 Найти пустые или низкие ячейки отбора", role: "log", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: 275, comments: [] },
+  { id: 277, group: "Пополнение и компрессия", task: "2.2 Выполнить ручное пополнение из хранения", role: "keeper", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: 275, comments: [] },
+  { id: 278, group: "Пополнение и компрессия", task: "2.3 Проверить, что WMS отражает движение", role: "admin", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: 275, comments: [] },
+
+  { id: 279, group: "Пополнение и компрессия", task: "Симуляция компрессии с проверкой брони и FEFO", role: "shift", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 280, group: "Пополнение и компрессия", task: "3.1 Найти частичные остатки одного товара, партии, срока", role: "log", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: 279, comments: [] },
+  { id: 281, group: "Пополнение и компрессия", task: "3.2 Смоделировать объединение в меньшее число ячеек", role: "keeper", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: 279, comments: [] },
+  { id: 282, group: "Пополнение и компрессия", task: "3.3 Проверить, не затронут ли товар под заказ и карантин", role: "shift", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: true, parentId: 279, comments: [] },
+  { id: 283, group: "Пополнение и компрессия", task: "3.4 Зафиксировать правила автоматической компрессии", role: "dev", start: "2026-11-11", end: "2026-11-11", progress: 0, critical: false, parentId: 279, comments: [] },
+
+  { id: 284, group: "Пополнение и компрессия", task: "Требования к доработке пополнения и компрессии", role: "dev", start: "2026-11-12", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 285, group: "Пополнение и компрессия", task: "4.1 Описать алгоритм пополнения: триггер, источник, маршрут, приоритет", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 284, comments: [] },
+  { id: 286, group: "Пополнение и компрессия", task: "4.2 Описать алгоритм компрессии: признаки объединения, ограничения, откат", role: "log", start: "2026-11-12", end: "2026-11-12", progress: 0, critical: false, parentId: 284, comments: [] },
+  { id: 287, group: "Пополнение и компрессия", task: "4.3 Оценить трудоёмкость", role: "dev", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: false, parentId: 284, comments: [] },
+
+  { id: 290, group: "Тестовая эксплуатация и исправления", task: "Пилот: реальные операции на одном тестовом ТСД", role: "keeper", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 291, group: "Тестовая эксплуатация и исправления", task: "1.1 Все операции выполнять через WMS", role: "keeper", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 290, comments: [] },
+  { id: 292, group: "Тестовая эксплуатация и исправления", task: "1.2 Не использовать МойСклад для складских операций", role: "shift", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 290, comments: [] },
+  { id: 293, group: "Тестовая эксплуатация и исправления", task: "1.3 Фиксировать отклонения и вопросы в WMS", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 290, comments: [] },
+
+  { id: 294, group: "Тестовая эксплуатация и исправления", task: "Ежедневная сверка остатков WMS и МойСклад", role: "log", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 295, group: "Тестовая эксплуатация и исправления", task: "2.1 Утром выгружать остатки WMS", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 294, comments: [] },
+  { id: 296, group: "Тестовая эксплуатация и исправления", task: "2.2 Сравнить с учётом МойСклад", role: "log", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 294, comments: [] },
+  { id: 297, group: "Тестовая эксплуатация и исправления", task: "2.3 Разобрать расхождения до конца смены", role: "shift", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 294, comments: [] },
+  { id: 298, group: "Тестовая эксплуатация и исправления", task: "2.4 Зафиксировать, если расхождение вызвано интеграцией", role: "dev", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 294, comments: [] },
+
+  { id: 299, group: "Тестовая эксплуатация и исправления", task: "Хотфиксы критичных ошибок P1 и P2", role: "dev", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: null, comments: [] },
+  { id: 300, group: "Тестовая эксплуатация и исправления", task: "3.1 Зарегистрировать дефект: кто, где, что делал, ожидаемый результат, фактический результат, скрин, фото, ТСД, версия", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 299, comments: [] },
+  { id: 301, group: "Тестовая эксплуатация и исправления", task: "3.2 Воспроизвести дефект на тестовом контуре", role: "dev", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 299, comments: [] },
+  { id: 302, group: "Тестовая эксплуатация и исправления", task: "3.3 Присвоить приоритет: P1 блокирует работу или данные, P2 мешает основному процессу без обхода", role: "scm", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 299, comments: [] },
+  { id: 303, group: "Тестовая эксплуатация и исправления", task: "3.4 Исправить код только после подтверждения сценария склада", role: "dev", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 299, comments: [] },
+  { id: 304, group: "Тестовая эксплуатация и исправления", task: "3.5 Провести регресс: проверка на ТСД, остатки, документы, offline, повторная отправка", role: "keeper", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 299, comments: [] },
+  { id: 305, group: "Тестовая эксплуатация и исправления", task: "3.6 Задеплоить хотфикс в тестовый контур и обновить тестовое ТСД", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 299, comments: [] },
+  { id: 306, group: "Тестовая эксплуатация и исправления", task: "3.7 Закрыть дефект с комментарием и обновить памятку, если меняются действия склада", role: "admin", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: false, parentId: 299, comments: [] },
+  { id: 307, group: "Тестовая эксплуатация и исправления", task: "3.8 При невозможности исправить быстро включить план отката или ручной обход, зафиксировать риск", role: "scm", start: "2026-11-09", end: "2026-11-13", progress: 0, critical: true, parentId: 299, comments: [] },
+
+  { id: 308, group: "Тестовая эксплуатация и исправления", task: "Стабилизация и закрытие тестовой недели", role: "log", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: false, parentId: null, comments: [] },
+  { id: 309, group: "Тестовая эксплуатация и исправления", task: "4.1 Подвести итоги по приёмке, сборке, отгрузке, инвентаризации", role: "log", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: false, parentId: 308, comments: [] },
+  { id: 310, group: "Тестовая эксплуатация и исправления", task: "4.2 Закрыть или понизить некритичные дефекты", role: "dev", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: false, parentId: 308, comments: [] },
+  { id: 311, group: "Тестовая эксплуатация и исправления", task: "4.3 Подготовить данные для итогового отчёта", role: "admin", start: "2026-11-13", end: "2026-11-13", progress: 0, critical: false, parentId: 308, comments: [] },
+
+  { id: 400, group: "Нерабочие дни", task: "04.11 не учитываем в работе", role: "holiday", start: "2026-11-04", end: "2026-11-04", progress: 100, critical: false, parentId: null, comments: [] }
+];
+
+let tasks = [];
+let currentTaskId = null;
+let currentFilter = 'all';
+let currentRoleFilter = 'all';
+let colWidths = [340, 180, 110, 60];
+let viewMode = 'dates';
+let sortOrder = 'asc';
+let collapsed = new Set();
+let globalChildrenMap = {};
+let visibleTasksForStats = [];
+
+function rebuildGlobalIndexes() {
+  globalChildrenMap = {};
+  tasks.forEach(t => {
+    if (t.parentId) {
+      if (!globalChildrenMap[t.parentId]) globalChildrenMap[t.parentId] = [];
+      globalChildrenMap[t.parentId].push(t);
+    }
+  });
+  Object.keys(globalChildrenMap).forEach(key => {
+    globalChildrenMap[key].sort(compareTasksAsc);
+  });
+}
+
+function compareTasksAsc(a, b) {
+  const startA = parseLocalDate(a.start).getTime();
+  const startB = parseLocalDate(b.start).getTime();
+  const endA = parseLocalDate(a.end).getTime();
+  const endB = parseLocalDate(b.end).getTime();
+  if (startA !== startB) return startA - startB;
+  if (endA !== endB) return endA - endB;
+  return String(a.task).localeCompare(String(b.task), 'ru');
+}
+
+function compareTasksDesc(a, b) {
+  const startA = parseLocalDate(a.start).getTime();
+  const startB = parseLocalDate(b.start).getTime();
+  const endA = parseLocalDate(a.end).getTime();
+  const endB = parseLocalDate(b.end).getTime();
+  if (startA !== startB) return startB - startA;
+  if (endA !== endB) return endB - endA;
+  return String(b.task).localeCompare(String(a.task), 'ru');
+}
+
+function hasChildren(id) {
+  return Array.isArray(globalChildrenMap[id]) && globalChildrenMap[id].length > 0;
+}
+
+function effectiveProgress(task) {
+  if (hasChildren(task.id)) {
+    const children = globalChildrenMap[task.id];
+    const sum = children.reduce((acc, child) => acc + effectiveProgress(child), 0);
+    return Math.round(sum / children.length);
+  }
+  return Number(task.progress) || 0;
+}
+
+function getDescendantIds(id) {
+  const result = [];
+  const stack = [...(globalChildrenMap[id] || [])];
+  while (stack.length) {
+    const task = stack.pop();
+    result.push(task.id);
+    (globalChildrenMap[task.id] || []).forEach(child => stack.push(child));
+  }
+  return result;
+}
+
+function loadData() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      tasks = Array.isArray(parsed.tasks) ? parsed.tasks : JSON.parse(JSON.stringify(initialData));
+      document.getElementById('project-notes').value = typeof parsed.notes === 'string' ? parsed.notes : initialNotes;
+      if (Array.isArray(parsed.colWidths) && parsed.colWidths.length === 4) colWidths = parsed.colWidths;
+      if (parsed.viewMode) viewMode = parsed.viewMode;
+      if (parsed.sortOrder) sortOrder = parsed.sortOrder;
+      collapsed = new Set(Array.isArray(parsed.collapsedIds) ? parsed.collapsedIds : []);
+    } catch(e) {
+      tasks = JSON.parse(JSON.stringify(initialData));
+      document.getElementById('project-notes').value = initialNotes;
+      collapsed = new Set();
+    }
+  } else {
+    tasks = JSON.parse(JSON.stringify(initialData));
+    document.getElementById('project-notes').value = initialNotes;
+    collapsed = new Set();
+  }
+  rebuildGlobalIndexes();
+  applyColWidths();
+  updateSortButtons();
+}
+
+function saveData() {
+  const notes = document.getElementById('project-notes').value;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    tasks,
+    notes,
+    colWidths,
+    viewMode,
+    sortOrder,
+    collapsedIds: Array.from(collapsed)
+  }));
+}
+
+function applyColWidths() {
+  const gridTemplate = colWidths.map(w => w + 'px').join(' ');
+  document.getElementById('row-header').style.gridTemplateColumns = gridTemplate;
+  document.querySelectorAll('.task-row:not(.group-row)').forEach(row => {
+    row.style.gridTemplateColumns = gridTemplate;
+  });
+}
+
+function getFilteredTasks() {
+  let filtered = tasks;
+  if (currentFilter !== 'all') {
+    filtered = filtered.filter(t => t.group === currentFilter);
+  }
+  if (currentRoleFilter !== 'all') {
+    filtered = filtered.filter(t => t.role === currentRoleFilter);
+  }
+  return filtered;
+}
+
+function sortRoots(roots) {
+  if (viewMode === 'groups') {
+    return [...roots].sort((a, b) => {
+      const ga = GROUPS.indexOf(a.group);
+      const gb = GROUPS.indexOf(b.group);
+      if (ga !== gb) return ga - gb;
+      return compareTasksAsc(a, b);
+    });
+  }
+  return [...roots].sort(sortOrder === 'asc' ? compareTasksAsc : compareTasksDesc);
+}
+
+function renderFilterButtons() {
+  const container = document.getElementById('group-filters');
+  container.innerHTML = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filter-btn active';
+  allBtn.dataset.filter = 'all';
+  allBtn.textContent = 'Все модули';
+  container.appendChild(allBtn);
+
+  GROUPS.forEach(group => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.dataset.filter = group;
+    btn.textContent = group;
+    container.appendChild(btn);
+  });
+
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('#group-filters .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderChart();
+  });
+}
+
+function setActiveFilterButton() {
+  document.querySelectorAll('#group-filters .filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+  });
+}
+
+function renderTimelineHeader() {
+  const header = document.getElementById('timeline-header');
+  header.innerHTML = '';
+  const totalDays = daysBetween(START_KEY, END_KEY) + 1;
+  const months = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+
+  for (let i = 0; i < totalDays; i++) {
+    const d = new Date(START);
+    d.setDate(d.getDate() + i);
+    const cell = document.createElement('div');
+    cell.className = 'timeline-day';
+    const dow = d.getDay();
+    if (dow === 0 || dow === 6) cell.classList.add('weekend');
+    if (d.getDate() === 1) cell.classList.add('month-start');
+
+    const num = document.createElement('div');
+    num.className = 'day-num';
+    num.textContent = d.getDate();
+
+    const month = document.createElement('div');
+    month.className = 'day-month';
+    month.textContent = d.getDate() === 1 ? months[d.getMonth()] : '';
+
+    cell.appendChild(num);
+    cell.appendChild(month);
+    header.appendChild(cell);
+  }
+}
+
+function renderTaskRowAndBar(task, leftCol, timelineBody, depth, rowHasChildren, isCollapsed) {
+  const row = document.createElement('div');
+  row.className = 'task-row' + (depth > 0 ? ' child' : '') + (rowHasChildren ? ' parent' : '');
+  row.dataset.id = task.id;
+  row.style.gridTemplateColumns = colWidths.map(w => w + 'px').join(' ');
+
+  const indent = '<span class="tree-indent"></span>'.repeat(depth);
+  const caret = rowHasChildren
+    ? `<span class="caret" data-caret="${task.id}">${isCollapsed ? '▶' : '▼'}</span>`
+    : '<span class="caret empty"></span>';
+
+  const eff = effectiveProgress(task);
+  const progressClass = eff === 100 ? 'complete' : eff > 0 ? 'in-progress' : 'not-started';
+  const commentIcon = task.comments && task.comments.length > 0 ? '<span class="comment-icon">💬</span>' : '';
+  const criticalIcon = task.critical ? '<span class="critical">★</span>' : '';
+
+  row.innerHTML = `
+    <div class="task-name">${indent}${caret}${criticalIcon}${esc(task.task)}${commentIcon}<span class="edit-icon">✏️</span></div>
+    <div><span class="task-role role-${task.role}">${esc(roleNames[task.role])}</span></div>
+    <div class="task-dates">${formatDate(task.start)} - ${formatDate(task.end)}</div>
+    <div class="task-progress ${progressClass}">${eff}%</div>
+  `;
+
+  row.addEventListener('click', (e) => {
+    if (e.target.closest('.caret')) {
+      toggleCollapse(task.id);
+    } else {
+      openPanel(task.id);
+    }
+  });
+
+  leftCol.appendChild(row);
+
+  const timelineRow = document.createElement('div');
+  timelineRow.className = 'timeline-row';
+
+  const offset = daysBetween(START_KEY, task.start);
+  const duration = daysBetween(task.start, task.end) + 1;
+
+  const bar = document.createElement('div');
+  bar.className = `gantt-bar role-${task.role}` + (rowHasChildren ? ' parent' : '');
+  bar.style.left = (offset * DAY_W) + 'px';
+  bar.style.width = (duration * DAY_W - 2) + 'px';
+
+  const progressFill = document.createElement('div');
+  progressFill.className = 'progress-fill';
+  progressFill.style.width = eff + '%';
+
+  const label = document.createElement('div');
+  label.className = 'bar-label';
+  label.textContent = task.task;
+
+  bar.appendChild(progressFill);
+  bar.appendChild(label);
+
+  if (task.critical) {
+    const badge = document.createElement('div');
+    badge.className = 'critical-badge';
+    badge.textContent = '★';
+    bar.appendChild(badge);
+  }
+
+  bar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openPanel(task.id);
+  });
+
+  timelineRow.appendChild(bar);
+  timelineBody.appendChild(timelineRow);
+}
+
+function renderMilestones(timelineBody) {
+  const milestones = [
+    { date: "2026-10-26", label: "Начало проекта" },
+    { date: "2026-10-30", label: "Пробная инвентаризация" },
+    { date: "2026-11-02", label: "Старт стартовой инвентаризации" },
+    { date: "2026-11-06", label: "Решение о запуске" },
+    { date: "2026-11-09", label: "Тестовая эксплуатация" },
+    { date: "2026-11-13", label: "Закрытие пилота" },
+    { date: "2026-11-16", label: "Итог" }
+  ];
+
+  milestones.forEach(m => {
+    const offset = daysBetween(START_KEY, m.date);
+    const line = document.createElement('div');
+    line.className = 'milestone-line';
+    line.style.left = (offset * DAY_W) + 'px';
+
+    const label = document.createElement('div');
+    label.className = 'milestone-label';
+    label.textContent = m.label;
+    line.appendChild(label);
+
+    timelineBody.appendChild(line);
+  });
+}
+
+function renderChart() {
+  const leftCol = document.getElementById('chart-left');
+  const timelineBody = document.getElementById('timeline-body');
+
+  leftCol.querySelectorAll('.task-row').forEach(el => el.remove());
+  timelineBody.innerHTML = '';
+
+  const filtered = getFilteredTasks();
+  const filteredById = new Map(filtered.map(t => [t.id, t]));
+  const tempChildren = new Map();
+  const roots = [];
+
+  filtered.forEach(t => {
+    if (t.parentId && filteredById.has(t.parentId)) {
+      if (!tempChildren.has(t.parentId)) tempChildren.set(t.parentId, []);
+      tempChildren.get(t.parentId).push(t);
+    } else {
+      roots.push(t);
+    }
+  });
+
+  tempChildren.forEach(arr => arr.sort(compareTasksAsc));
+
+  const sortedRoots = sortRoots(roots);
+  const visible = [];
+
+  function collect(list, depth) {
+    list.forEach(node => {
+      const children = tempChildren.get(node.id) || [];
+      const nodeHasChildren = children.length > 0;
+      const isCollapsed = collapsed.has(node.id);
+      visible.push({ node, depth, hasChildren: nodeHasChildren, isCollapsed });
+      if (nodeHasChildren && !isCollapsed) {
+        collect(children, depth + 1);
+      }
+    });
+  }
+
+  collect(sortedRoots, 0);
+  visibleTasksForStats = visible.map(v => v.node);
+
+  if (visible.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.textContent = 'Нет задач по выбранным фильтрам';
+    leftCol.appendChild(empty);
+    updateStats();
+    updateActiveFilters();
+    return;
+  }
+
+  const totalDays = daysBetween(START_KEY, END_KEY) + 1;
+  timelineBody.style.width = (totalDays * DAY_W) + 'px';
+
+  visible.forEach(item => {
+    renderTaskRowAndBar(item.node, leftCol, timelineBody, item.depth, item.hasChildren, item.isCollapsed);
+  });
+
+  renderMilestones(timelineBody);
+  updateStats();
+  updateActiveFilters();
+}
+
+function toggleCollapse(id) {
+  if (collapsed.has(id)) {
+    collapsed.delete(id);
+  } else {
+    collapsed.add(id);
+  }
+  saveData();
+  renderChart();
+}
+
+function expandAll() {
+  collapsed.clear();
+  saveData();
+  renderChart();
+  showToast('Все подпункты развернуты');
+}
+
+function collapseAll() {
+  collapsed = new Set(tasks.filter(t => hasChildren(t.id)).map(t => t.id));
+  saveData();
+  renderChart();
+  showToast('Подпункты свернуты');
+}
+
+function toggleGroupFilter(group) {
+  if (currentFilter === group) {
+    currentFilter = 'all';
+  } else {
+    currentFilter = group;
+  }
+  setActiveFilterButton();
+  renderChart();
+}
+
+function toggleRoleFilter(role) {
+  if (currentRoleFilter === role) {
+    currentRoleFilter = 'all';
+  } else {
+    currentRoleFilter = role;
+  }
+  document.querySelectorAll('.legend-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.role === currentRoleFilter);
+  });
+  renderChart();
+}
+
+function updateActiveFilters() {
+  const container = document.getElementById('active-filters');
+  container.innerHTML = '';
+
+  if (currentFilter !== 'all') {
+    const tag = document.createElement('div');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `Модуль: ${esc(currentFilter)} <span class="clear" onclick="clearGroupFilter()">&times;</span>`;
+    container.appendChild(tag);
+  }
+
+  if (currentRoleFilter !== 'all') {
+    const tag = document.createElement('div');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `Роль: ${esc(roleNames[currentRoleFilter])} <span class="clear" onclick="clearRoleFilter()">&times;</span>`;
+    container.appendChild(tag);
+  }
+
+  container.classList.toggle('show', currentFilter !== 'all' || currentRoleFilter !== 'all');
+}
+
+function clearGroupFilter() {
+  currentFilter = 'all';
+  setActiveFilterButton();
+  renderChart();
+}
+
+function clearRoleFilter() {
+  currentRoleFilter = 'all';
+  document.querySelectorAll('.legend-item').forEach(item => item.classList.remove('active'));
+  renderChart();
+}
+
+function updateStats() {
+  const total = visibleTasksForStats.length;
+  const complete = visibleTasksForStats.filter(t => effectiveProgress(t) === 100).length;
+  const avgProgress = total > 0 ? Math.round(visibleTasksForStats.reduce((sum, t) => sum + effectiveProgress(t), 0) / total) : 0;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-complete').textContent = complete;
+  document.getElementById('stat-progress').textContent = avgProgress + '%';
+  document.getElementById('overall-progress').style.width = avgProgress + '%';
+}
+
+function updateSortButtons() {
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (viewMode === 'dates' && sortOrder === 'asc' && btn.dataset.sort === 'dates-asc') {
+      btn.classList.add('active');
+    }
+    if (viewMode === 'dates' && sortOrder === 'desc' && btn.dataset.sort === 'dates-desc') {
+      btn.classList.add('active');
+    }
+    if (viewMode === 'groups' && btn.dataset.sort === 'groups') {
+      btn.classList.add('active');
+    }
+  });
+}
+
+function openPanel(taskId) {
+  currentTaskId = taskId;
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  const isParent = hasChildren(task.id);
+
+  document.getElementById('panel-title').textContent = task.task;
+  document.getElementById('panel-subtitle').textContent = task.group + (isParent ? ' · родительская задача' : '');
+  document.getElementById('edit-task-name').value = task.task;
+  document.getElementById('edit-role').value = task.role;
+  document.getElementById('edit-start').value = task.start;
+  document.getElementById('edit-end').value = task.end;
+  document.getElementById('edit-critical').checked = task.critical;
+
+  const slider = document.getElementById('progress-slider');
+  const autoNote = document.getElementById('auto-note');
+  slider.disabled = isParent;
+  autoNote.style.display = isParent ? 'block' : 'none';
+  slider.value = effectiveProgress(task);
+  document.getElementById('progress-value').textContent = effectiveProgress(task) + '%';
+
+  renderComments(task);
+
+  document.getElementById('side-panel').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+
+  document.querySelectorAll('.task-row').forEach(row => {
+    row.classList.toggle('selected', row.dataset.id == taskId);
+  });
+}
+
+function closePanel() {
+  document.getElementById('side-panel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+  document.querySelectorAll('.task-row').forEach(row => row.classList.remove('selected'));
+  currentTaskId = null;
+}
+
+function renderComments(task) {
+  const list = document.getElementById('comments-list');
+  list.innerHTML = '';
+  if (!task.comments || task.comments.length === 0) {
+    list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">Комментариев пока нет</div>';
+    return;
+  }
+  task.comments.forEach((c) => {
+    const item = document.createElement('div');
+    item.className = 'comment-item';
+    item.innerHTML = `
+      <div class="comment-meta">${esc(c.date)}</div>
+      <div class="comment-text">${esc(c.text)}</div>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function addComment() {
+  const input = document.getElementById('comment-input');
+  const text = input.value.trim();
+  if (!text || !currentTaskId) return;
+
+  const task = tasks.find(t => t.id === currentTaskId);
+  if (!task) return;
+
+  if (!task.comments) task.comments = [];
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU').slice(0,5);
+
+  task.comments.push({ date: dateStr, text: text });
+  input.value = '';
+
+  saveData();
+  renderComments(task);
+  renderChart();
+  showToast('Комментарий добавлен');
+}
+
+function saveTask() {
+  if (!currentTaskId) return;
+  const task = tasks.find(t => t.id === currentTaskId);
+  if (!task) return;
+
+  task.task = document.getElementById('edit-task-name').value.trim();
+  task.role = document.getElementById('edit-role').value;
+  task.start = document.getElementById('edit-start').value;
+  task.end = document.getElementById('edit-end').value;
+  task.critical = document.getElementById('edit-critical').checked;
+
+  if (!hasChildren(task.id)) {
+    task.progress = parseInt(document.getElementById('progress-slider').value);
+  }
+
+  if (parseLocalDate(task.start) > parseLocalDate(task.end)) {
+    showToast('Ошибка: дата начала позже даты окончания');
+    return;
+  }
+
+  rebuildGlobalIndexes();
+  saveData();
+  renderChart();
+  showToast('Сохранено');
+  closePanel();
+}
+
+function deleteTask() {
+  if (!currentTaskId) return;
+  const task = tasks.find(t => t.id === currentTaskId);
+  if (!task) return;
+
+  const isParent = hasChildren(task.id);
+  const message = isParent
+    ? 'Удалить эту задачу и все её подпункты?'
+    : 'Удалить эту задачу?';
+
+  if (confirm(message)) {
+    const descendants = getDescendantIds(task.id);
+    tasks = tasks.filter(t => t.id !== task.id && !descendants.includes(t.id));
+    rebuildGlobalIndexes();
+    saveData();
+    renderChart();
+    showToast('Задача удалена');
+    closePanel();
+  }
+}
+
+document.getElementById('progress-slider').addEventListener('input', (e) => {
+  document.getElementById('progress-value').textContent = e.target.value + '%';
+});
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function exportData() {
+  const notes = document.getElementById('project-notes').value;
+  const data = JSON.stringify({
+    tasks,
+    notes,
+    colWidths,
+    viewMode,
+    sortOrder,
+    collapsedIds: Array.from(collapsed)
+  }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'wms-gantt-' + formatISO(new Date()) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Данные экспортированы');
+}
+
+document.querySelectorAll('.legend-item').forEach(item => {
+  item.addEventListener('click', () => {
+    toggleRoleFilter(item.dataset.role);
+  });
+});
+
+document.querySelectorAll('.sort-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const sort = btn.dataset.sort;
+    if (sort === 'dates-asc') {
+      viewMode = 'dates';
+      sortOrder = 'asc';
+    } else if (sort === 'dates-desc') {
+      viewMode = 'dates';
+      sortOrder = 'desc';
+    } else if (sort === 'groups') {
+      viewMode = 'groups';
+    }
+    updateSortButtons();
+    saveData();
+    renderChart();
+  });
+});
+
+let resizingCol = null;
+let startX = 0;
+let startWidth = 0;
+
+document.querySelectorAll('.resizer').forEach(resizer => {
+  resizer.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    resizingCol = parseInt(resizer.dataset.col);
+    startX = e.pageX;
+    startWidth = colWidths[resizingCol];
+    resizer.classList.add('resizing');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  });
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (resizingCol === null) return;
+  const diff = e.pageX - startX;
+  const newWidth = Math.max(60, startWidth + diff);
+  colWidths[resizingCol] = newWidth;
+  applyColWidths();
+});
+
+document.addEventListener('mouseup', () => {
+  if (resizingCol !== null) {
+    document.querySelectorAll('.resizer').forEach(r => r.classList.remove('resizing'));
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    resizingCol = null;
+    saveData();
+  }
+});
+
+document.getElementById('project-notes').addEventListener('change', saveData);
+
+renderFilterButtons();
+loadData();
+renderTimelineHeader();
+renderChart();
+</script>
+</body>
+</html>
