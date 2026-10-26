@@ -102,7 +102,7 @@
       "critical": false,
       "parentId": 7,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 9,
@@ -141,7 +141,7 @@
       "critical": false,
       "parentId": null,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 12,
@@ -193,7 +193,7 @@
       "critical": true,
       "parentId": null,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 16,
@@ -559,7 +559,7 @@
       "id": 49,
       "group": "ТСД и доступы",
       "task": "Тест сканера, камеры и чтения этикеток",
-      "role": "keeper",
+      "role": "log",
       "start": "2026-10-27",
       "end": "2026-10-28",
       "progress": 0,
@@ -610,7 +610,7 @@
       "critical": true,
       "parentId": 49,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 53,
@@ -623,7 +623,7 @@
       "critical": false,
       "parentId": 49,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 54,
@@ -714,7 +714,7 @@
       "critical": true,
       "parentId": 60,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 63,
@@ -727,7 +727,7 @@
       "critical": false,
       "parentId": 60,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 64,
@@ -922,7 +922,7 @@
       "critical": false,
       "parentId": 77,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 79,
@@ -1104,7 +1104,7 @@
       "critical": true,
       "parentId": 90,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 94,
@@ -1182,7 +1182,7 @@
       "critical": false,
       "parentId": 98,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 100,
@@ -1416,7 +1416,7 @@
       "critical": true,
       "parentId": 116,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 118,
@@ -3333,14 +3333,14 @@
       "id": 302,
       "group": "Тестовая эксплуатация и исправления",
       "task": "3.3 Присвоить приоритет: P1 блокирует работу или данные, P2 мешает основному процессу без обхода",
-      "role": "scm",
+      "role": "log",
       "start": "2026-11-09",
       "end": "2026-11-13",
       "progress": 0,
       "critical": true,
       "parentId": 299,
       "comments": [],
-      "assignee": ""
+      "assignee": "Воронцова Евгения"
     },
     {
       "id": 303,
@@ -4037,15 +4037,62 @@
     26,
     30,
     40,
-    49,
     54,
     60,
     64,
     68,
     85,
     90,
-    94
+    94,
+    73,
+    77,
+    81,
+    116,
+    98,
+    102,
+    112,
+    106,
+    145,
+    130,
+    135,
+    138,
+    142,
+    149,
+    160,
+    166,
+    170,
+    180,
+    186,
+    191,
+    196,
+    201,
+    210,
+    214,
+    220,
+    225,
+    230,
+    234,
+    238,
+    243,
+    247,
+    251,
+    255,
+    259,
+    270,
+    275,
+    279,
+    284,
+    294,
+    290,
+    299,
+    308,
+    320,
+    330,
+    340,
+    350,
+    370,
+    49
   ],
-  "updatedAt": 1793000912023,
+  "updatedAt": 1793002809492,
   "updatedBy": "device-39l3f129trt-mvo7genq"
 }
