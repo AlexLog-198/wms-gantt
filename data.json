@@ -449,7 +449,7 @@
       "role": "log",
       "start": "2026-10-26",
       "end": "2026-10-26",
-      "progress": 0,
+      "progress": 50,
       "critical": true,
       "parentId": 40,
       "comments": [],
@@ -462,7 +462,7 @@
       "role": "dev",
       "start": "2026-10-26",
       "end": "2026-10-26",
-      "progress": 0,
+      "progress": 100,
       "critical": true,
       "parentId": 40,
       "comments": [],
@@ -575,7 +575,7 @@
       "role": "log",
       "start": "2026-10-27",
       "end": "2026-10-27",
-      "progress": 25,
+      "progress": 100,
       "critical": true,
       "parentId": 49,
       "comments": [
@@ -593,10 +593,15 @@
       "role": "log",
       "start": "2026-10-27",
       "end": "2026-10-28",
-      "progress": 0,
+      "progress": 20,
       "critical": true,
       "parentId": 49,
-      "comments": [],
+      "comments": [
+        {
+          "date": "26.10.2026 18:31",
+          "text": "Проверили. Читает не все коды, возможно нет обмена с МС."
+        }
+      ],
       "assignee": ""
     },
     {
@@ -4026,17 +4031,15 @@
     110,
     60
   ],
-  "viewMode": "groups",
+  "viewMode": "dates",
   "sortOrder": "asc",
   "collapsedIds": [
-    1,
     7,
     11,
     15,
     19,
     26,
     30,
-    40,
     54,
     60,
     64,
@@ -4090,9 +4093,8 @@
     330,
     340,
     350,
-    370,
-    49
+    370
   ],
-  "updatedAt": 1793002809492,
+  "updatedAt": 1793028808067,
   "updatedBy": "device-39l3f129trt-mvo7genq"
 }
