@@ -10,7 +10,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": "Жуков Алексей"
     },
     {
       "id": 2,
@@ -22,7 +23,8 @@
       "progress": 50,
       "critical": false,
       "parentId": 1,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 3,
@@ -34,7 +36,8 @@
       "progress": 50,
       "critical": false,
       "parentId": 1,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 4,
@@ -46,7 +49,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 1,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 5,
@@ -58,7 +62,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 1,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 6,
@@ -70,7 +75,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 1,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 7,
@@ -82,7 +88,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 8,
@@ -94,7 +101,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 7,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 9,
@@ -106,7 +114,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 7,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 10,
@@ -118,7 +127,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 7,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 11,
@@ -130,7 +140,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 12,
@@ -142,7 +153,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 11,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 13,
@@ -154,7 +166,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 11,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 14,
@@ -166,7 +179,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 11,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 15,
@@ -178,7 +192,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 16,
@@ -190,7 +205,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 15,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 17,
@@ -202,7 +218,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 15,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 18,
@@ -214,7 +231,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 15,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 19,
@@ -226,7 +244,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 20,
@@ -238,7 +257,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 19,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 21,
@@ -250,7 +270,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 19,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 22,
@@ -262,7 +283,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 19,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 23,
@@ -274,7 +296,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 19,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 24,
@@ -286,7 +309,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 19,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 25,
@@ -298,7 +322,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 19,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 26,
@@ -310,7 +335,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 27,
@@ -322,7 +348,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 26,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 28,
@@ -334,7 +361,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 26,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 29,
@@ -346,7 +374,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 26,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 30,
@@ -358,7 +387,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 31,
@@ -370,7 +400,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 30,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 32,
@@ -382,7 +413,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 30,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 33,
@@ -394,7 +426,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 30,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 40,
@@ -406,7 +439,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 41,
@@ -418,7 +452,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 40,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 42,
@@ -430,7 +465,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 40,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 43,
@@ -442,7 +478,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 40,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 44,
@@ -454,7 +491,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 45,
@@ -466,7 +504,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 44,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 46,
@@ -478,7 +517,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 44,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 47,
@@ -490,7 +530,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 44,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 48,
@@ -502,7 +543,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 44,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 49,
@@ -514,7 +556,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 50,
@@ -526,7 +569,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 49,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 51,
@@ -538,7 +582,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 49,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 52,
@@ -550,7 +595,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 49,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 53,
@@ -562,7 +608,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 49,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 54,
@@ -574,7 +621,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 55,
@@ -586,7 +634,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 54,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 56,
@@ -598,7 +647,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 54,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 57,
@@ -610,7 +660,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 54,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 60,
@@ -622,7 +673,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 61,
@@ -634,7 +686,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 60,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 62,
@@ -646,7 +699,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 60,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 63,
@@ -658,7 +712,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 60,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 64,
@@ -670,7 +725,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 65,
@@ -682,7 +738,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 64,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 66,
@@ -694,7 +751,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 64,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 67,
@@ -706,7 +764,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 64,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 68,
@@ -718,7 +777,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 69,
@@ -730,7 +790,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 68,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 70,
@@ -742,7 +803,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 68,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 71,
@@ -754,7 +816,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 68,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 72,
@@ -766,7 +829,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 68,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 73,
@@ -778,7 +842,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 74,
@@ -790,7 +855,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 73,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 75,
@@ -802,7 +868,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 73,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 76,
@@ -814,7 +881,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 73,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 77,
@@ -826,7 +894,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 78,
@@ -838,7 +907,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 77,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 79,
@@ -850,7 +920,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 77,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 80,
@@ -862,7 +933,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 77,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 81,
@@ -874,7 +946,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 82,
@@ -886,7 +959,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 81,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 83,
@@ -898,7 +972,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 81,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 84,
@@ -910,7 +985,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 81,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 85,
@@ -922,7 +998,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 86,
@@ -934,7 +1011,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 85,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 87,
@@ -946,7 +1024,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 85,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 88,
@@ -958,7 +1037,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 85,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 90,
@@ -970,7 +1050,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 91,
@@ -982,7 +1063,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 90,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 92,
@@ -994,7 +1076,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 90,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 93,
@@ -1006,7 +1089,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 90,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 94,
@@ -1018,7 +1102,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 95,
@@ -1030,7 +1115,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 94,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 96,
@@ -1042,7 +1128,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 94,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 97,
@@ -1054,7 +1141,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 94,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 98,
@@ -1066,7 +1154,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 99,
@@ -1078,7 +1167,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 98,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 100,
@@ -1090,7 +1180,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 98,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 101,
@@ -1102,7 +1193,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 98,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 102,
@@ -1114,7 +1206,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 103,
@@ -1126,7 +1219,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 102,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 104,
@@ -1138,7 +1232,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 102,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 105,
@@ -1150,7 +1245,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 102,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 106,
@@ -1162,7 +1258,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 107,
@@ -1174,7 +1271,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 106,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 108,
@@ -1186,7 +1284,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 106,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 109,
@@ -1198,7 +1297,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 106,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 110,
@@ -1210,7 +1310,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 106,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 111,
@@ -1222,7 +1323,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 106,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 112,
@@ -1234,7 +1336,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 113,
@@ -1246,7 +1349,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 112,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 114,
@@ -1258,7 +1362,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 112,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 115,
@@ -1270,7 +1375,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 112,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 116,
@@ -1282,7 +1388,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 117,
@@ -1294,7 +1401,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 116,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 118,
@@ -1306,7 +1414,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 116,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 119,
@@ -1318,7 +1427,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 116,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 120,
@@ -1330,7 +1440,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 116,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 121,
@@ -1342,7 +1453,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 116,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 130,
@@ -1354,7 +1466,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 131,
@@ -1366,7 +1479,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 130,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 132,
@@ -1378,7 +1492,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 130,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 133,
@@ -1390,7 +1505,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 130,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 134,
@@ -1402,7 +1518,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 130,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 135,
@@ -1414,7 +1531,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 136,
@@ -1426,7 +1544,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 135,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 137,
@@ -1438,7 +1557,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 135,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 138,
@@ -1450,7 +1570,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 139,
@@ -1462,7 +1583,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 138,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 140,
@@ -1474,7 +1596,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 138,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 141,
@@ -1486,7 +1609,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 138,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 142,
@@ -1498,7 +1622,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 143,
@@ -1510,7 +1635,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 142,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 144,
@@ -1522,7 +1648,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 142,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 145,
@@ -1534,7 +1661,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 146,
@@ -1546,7 +1674,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 145,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 147,
@@ -1558,7 +1687,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 145,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 148,
@@ -1570,7 +1700,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 145,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 149,
@@ -1582,7 +1713,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 150,
@@ -1594,7 +1726,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 149,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 151,
@@ -1606,7 +1739,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 149,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 152,
@@ -1618,7 +1752,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 149,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 160,
@@ -1630,7 +1765,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 161,
@@ -1642,7 +1778,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 160,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 162,
@@ -1654,7 +1791,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 160,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 163,
@@ -1666,7 +1804,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 160,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 164,
@@ -1678,7 +1817,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 160,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 165,
@@ -1690,7 +1830,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 160,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 166,
@@ -1702,7 +1843,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 167,
@@ -1714,7 +1856,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 166,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 168,
@@ -1726,7 +1869,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 166,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 169,
@@ -1738,7 +1882,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 166,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 170,
@@ -1750,7 +1895,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 171,
@@ -1762,7 +1908,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 170,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 172,
@@ -1774,7 +1921,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 170,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 173,
@@ -1786,7 +1934,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 170,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 180,
@@ -1798,7 +1947,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 181,
@@ -1810,7 +1960,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 180,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 182,
@@ -1822,7 +1973,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 180,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 183,
@@ -1834,7 +1986,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 180,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 184,
@@ -1846,7 +1999,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 180,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 185,
@@ -1858,7 +2012,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 180,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 186,
@@ -1870,7 +2025,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 187,
@@ -1882,7 +2038,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 186,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 188,
@@ -1894,7 +2051,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 186,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 189,
@@ -1906,7 +2064,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 186,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 190,
@@ -1918,7 +2077,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 186,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 191,
@@ -1930,7 +2090,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 192,
@@ -1942,7 +2103,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 191,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 193,
@@ -1954,7 +2116,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 191,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 194,
@@ -1966,7 +2129,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 191,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 195,
@@ -1978,7 +2142,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 191,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 196,
@@ -1990,7 +2155,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 197,
@@ -2002,7 +2168,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 196,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 198,
@@ -2014,7 +2181,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 196,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 199,
@@ -2026,7 +2194,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 196,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 200,
@@ -2038,7 +2207,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 196,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 201,
@@ -2050,7 +2220,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 202,
@@ -2062,7 +2233,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 201,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 203,
@@ -2074,7 +2246,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 201,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 204,
@@ -2086,7 +2259,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 201,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 210,
@@ -2098,7 +2272,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 211,
@@ -2110,7 +2285,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 210,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 212,
@@ -2122,7 +2298,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 210,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 213,
@@ -2134,7 +2311,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 210,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 214,
@@ -2146,7 +2324,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 215,
@@ -2158,7 +2337,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 214,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 216,
@@ -2170,7 +2350,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 214,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 217,
@@ -2182,7 +2363,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 214,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 218,
@@ -2194,7 +2376,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 214,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 219,
@@ -2206,7 +2389,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 214,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 220,
@@ -2218,7 +2402,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 221,
@@ -2230,7 +2415,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 220,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 222,
@@ -2242,7 +2428,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 220,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 223,
@@ -2254,7 +2441,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 220,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 224,
@@ -2266,7 +2454,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 220,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 225,
@@ -2278,7 +2467,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 226,
@@ -2290,7 +2480,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 225,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 227,
@@ -2302,7 +2493,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 225,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 228,
@@ -2314,7 +2506,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 225,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 230,
@@ -2326,7 +2519,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 231,
@@ -2338,7 +2532,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 230,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 232,
@@ -2350,7 +2545,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 230,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 233,
@@ -2362,7 +2558,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 230,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 234,
@@ -2374,7 +2571,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 235,
@@ -2386,7 +2584,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 234,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 236,
@@ -2398,7 +2597,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 234,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 237,
@@ -2410,7 +2610,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 234,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 238,
@@ -2422,7 +2623,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 239,
@@ -2434,7 +2636,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 238,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 240,
@@ -2446,7 +2649,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 238,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 241,
@@ -2458,7 +2662,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 238,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 242,
@@ -2470,7 +2675,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 238,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 243,
@@ -2482,7 +2688,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 244,
@@ -2494,7 +2701,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 243,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 245,
@@ -2506,7 +2714,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 243,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 246,
@@ -2518,7 +2727,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 243,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 247,
@@ -2530,7 +2740,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 248,
@@ -2542,7 +2753,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 247,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 249,
@@ -2554,7 +2766,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 247,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 250,
@@ -2566,7 +2779,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 247,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 251,
@@ -2578,7 +2792,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 252,
@@ -2590,7 +2805,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 251,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 253,
@@ -2602,7 +2818,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 251,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 254,
@@ -2614,7 +2831,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 251,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 255,
@@ -2626,7 +2844,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 256,
@@ -2638,7 +2857,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 255,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 257,
@@ -2650,7 +2870,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 255,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 258,
@@ -2662,7 +2883,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 255,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 259,
@@ -2674,7 +2896,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 260,
@@ -2686,7 +2909,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 259,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 261,
@@ -2698,7 +2922,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 259,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 270,
@@ -2710,7 +2935,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 271,
@@ -2722,7 +2948,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 270,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 272,
@@ -2734,7 +2961,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 270,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 273,
@@ -2746,7 +2974,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 270,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 274,
@@ -2758,7 +2987,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 270,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 275,
@@ -2770,7 +3000,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 276,
@@ -2782,7 +3013,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 275,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 277,
@@ -2794,7 +3026,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 275,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 278,
@@ -2806,7 +3039,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 275,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 279,
@@ -2818,7 +3052,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 280,
@@ -2830,7 +3065,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 279,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 281,
@@ -2842,7 +3078,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 279,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 282,
@@ -2854,7 +3091,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 279,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 283,
@@ -2866,7 +3104,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 279,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 284,
@@ -2878,7 +3117,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 285,
@@ -2890,7 +3130,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 284,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 286,
@@ -2902,7 +3143,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 284,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 287,
@@ -2914,7 +3156,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 284,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 290,
@@ -2926,7 +3169,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 291,
@@ -2938,7 +3182,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 290,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 292,
@@ -2950,7 +3195,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 290,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 293,
@@ -2962,7 +3208,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 290,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 294,
@@ -2974,7 +3221,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 295,
@@ -2986,7 +3234,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 294,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 296,
@@ -2998,7 +3247,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 294,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 297,
@@ -3010,7 +3260,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 294,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 298,
@@ -3022,7 +3273,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 294,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 299,
@@ -3034,7 +3286,8 @@
       "progress": 0,
       "critical": true,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 300,
@@ -3046,7 +3299,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 301,
@@ -3058,7 +3312,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 302,
@@ -3070,7 +3325,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 303,
@@ -3082,7 +3338,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 304,
@@ -3094,7 +3351,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 305,
@@ -3106,7 +3364,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 306,
@@ -3118,7 +3377,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 307,
@@ -3130,7 +3390,8 @@
       "progress": 0,
       "critical": true,
       "parentId": 299,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 308,
@@ -3142,7 +3403,8 @@
       "progress": 0,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 309,
@@ -3154,7 +3416,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 308,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 310,
@@ -3166,7 +3429,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 308,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 311,
@@ -3178,7 +3442,8 @@
       "progress": 0,
       "critical": false,
       "parentId": 308,
-      "comments": []
+      "comments": [],
+      "assignee": ""
     },
     {
       "id": 400,
@@ -3190,7 +3455,554 @@
       "progress": 100,
       "critical": false,
       "parentId": null,
-      "comments": []
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 320,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "Обучение кладовщиков работе в WMS",
+      "role": "shift",
+      "start": "2026-11-05",
+      "end": "2026-11-10",
+      "progress": 0,
+      "critical": true,
+      "parentId": null,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 321,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "1.1 Подготовить программу обучения: роли, процессы, исключения, порядок эскалации",
+      "role": "log",
+      "start": "2026-11-05",
+      "end": "2026-11-05",
+      "progress": 0,
+      "critical": true,
+      "parentId": 320,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 322,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "1.2 Подготовить короткие инструкции и чек-листы для работы на ТСД",
+      "role": "admin",
+      "start": "2026-11-05",
+      "end": "2026-11-05",
+      "progress": 0,
+      "critical": true,
+      "parentId": 320,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 323,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "1.3 Провести обучение старших смены: контроль заданий, расхождения, блокировки, поддержка кладовщиков",
+      "role": "shift",
+      "start": "2026-11-06",
+      "end": "2026-11-06",
+      "progress": 0,
+      "critical": true,
+      "parentId": 320,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 324,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "1.4 Провести обучение кладовщиков на одном тестовом ТСД",
+      "role": "keeper",
+      "start": "2026-11-09",
+      "end": "2026-11-09",
+      "progress": 0,
+      "critical": true,
+      "parentId": 320,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 325,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "1.5 Отработать приёмку, размещение, сборку, упаковку, отгрузку, инвентаризацию и карантин",
+      "role": "keeper",
+      "start": "2026-11-09",
+      "end": "2026-11-10",
+      "progress": 0,
+      "critical": true,
+      "parentId": 320,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 326,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "1.6 Провести проверку знаний и допустить сотрудников к операциям в WMS",
+      "role": "shift",
+      "start": "2026-11-10",
+      "end": "2026-11-10",
+      "progress": 0,
+      "critical": true,
+      "parentId": 320,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 327,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "1.7 Назначить наставников и зафиксировать порядок поддержки на смене",
+      "role": "log",
+      "start": "2026-11-10",
+      "end": "2026-11-10",
+      "progress": 0,
+      "critical": false,
+      "parentId": 320,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 330,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "Запуск и тестирование на 6 и более ТСД",
+      "role": "admin",
+      "start": "2026-11-11",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": null,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 331,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "2.1 Подготовить 6 и более ТСД: версия, батарея, Wi-Fi, учётные записи, бейджи",
+      "role": "admin",
+      "start": "2026-11-11",
+      "end": "2026-11-11",
+      "progress": 0,
+      "critical": true,
+      "parentId": 330,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 332,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "2.2 Установить клиент WMS на все тестовые ТСД и проверить вход",
+      "role": "dev",
+      "start": "2026-11-11",
+      "end": "2026-11-11",
+      "progress": 0,
+      "critical": true,
+      "parentId": 330,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 333,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "2.3 Провести параллельные операции: приёмка, размещение, сборка, отгрузка, инвентаризация",
+      "role": "keeper",
+      "start": "2026-11-12",
+      "end": "2026-11-12",
+      "progress": 0,
+      "critical": true,
+      "parentId": 330,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 334,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "2.4 Замерить время операций, количество ошибок, очереди заданий и простои",
+      "role": "log",
+      "start": "2026-11-12",
+      "end": "2026-11-12",
+      "progress": 0,
+      "critical": true,
+      "parentId": 330,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 335,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "2.5 Проверить синхронизацию статусов и остатков между несколькими ТСД",
+      "role": "dev",
+      "start": "2026-11-13",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": 330,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 336,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "2.6 Зафиксировать дефекты и требования перед промышленным использованием",
+      "role": "admin",
+      "start": "2026-11-13",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": 330,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 340,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "Проверка отказоустойчивости системы",
+      "role": "dev",
+      "start": "2026-11-12",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": null,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 341,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "3.1 Проверить работу ТСД при потере Wi-Fi или мобильного интернета",
+      "role": "keeper",
+      "start": "2026-11-12",
+      "end": "2026-11-12",
+      "progress": 0,
+      "critical": true,
+      "parentId": 340,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 342,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "3.2 Проверить offline очередь, повторную отправку операций и отсутствие дублей",
+      "role": "dev",
+      "start": "2026-11-12",
+      "end": "2026-11-12",
+      "progress": 0,
+      "critical": true,
+      "parentId": 340,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 343,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "3.3 Проверить перезапуск сервера или веб-приложения без потери данных",
+      "role": "admin",
+      "start": "2026-11-13",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": 340,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 344,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "3.4 Проверить одновременную работу нескольких пользователей и конфликты по остаткам",
+      "role": "log",
+      "start": "2026-11-13",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": 340,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 345,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "3.5 Проверить резервное копирование и восстановление базы, журнала операций и справочников",
+      "role": "admin",
+      "start": "2026-11-16",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": 340,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 346,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "3.6 Проверить сбой принтера этикеток, отсутствие рулона и ручной обход",
+      "role": "shift",
+      "start": "2026-11-16",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": false,
+      "parentId": 340,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 350,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "Проработка хостинга или серверного размещения",
+      "role": "dev",
+      "start": "2026-11-12",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": null,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 351,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "4.1 Определить модель размещения: облачный хостинг, локальный сервер или гибрид",
+      "role": "scm",
+      "start": "2026-11-12",
+      "end": "2026-11-12",
+      "progress": 0,
+      "critical": true,
+      "parentId": 350,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 352,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "4.2 Проверить требования: HTTPS, доступы, журналирование, мониторинг, бэкапы, восстановление",
+      "role": "admin",
+      "start": "2026-11-13",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": 350,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 353,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "4.3 Подготовить процедуру обновления веб-версии или серверной части без остановки склада",
+      "role": "dev",
+      "start": "2026-11-13",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": 350,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 354,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "4.4 Настроить или проверить откат на предыдущую версию при неудачном обновлении",
+      "role": "dev",
+      "start": "2026-11-16",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": 350,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 355,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "4.5 Проверить резервные копии и реальное восстановление на тестовом контуре",
+      "role": "admin",
+      "start": "2026-11-16",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": 350,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 356,
+      "group": "Обучение, масштабирование и инфраструктура",
+      "task": "4.6 Согласовать ответственных за выпуск обновлений, окно обслуживания и правило уведомлений",
+      "role": "scm",
+      "start": "2026-11-16",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": 350,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 360,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "Поиск по словам в WMS",
+      "role": "dev",
+      "start": "2026-11-09",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": null,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 361,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "5.1 Определить объекты поиска: заказ, SKU, штрихкод, документ, рейс, ячейка, стеллаж, партия, срок, контрагент",
+      "role": "log",
+      "start": "2026-11-09",
+      "end": "2026-11-09",
+      "progress": 0,
+      "critical": true,
+      "parentId": 360,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 362,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "5.2 Сформулировать требования: регистронезависимость, частичное совпадение, фильтры, скорость, права доступа",
+      "role": "log",
+      "start": "2026-11-10",
+      "end": "2026-11-10",
+      "progress": 0,
+      "critical": true,
+      "parentId": 360,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 363,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "5.3 Проверить текущий поиск в WMS и зафиксировать недостающие сценарии",
+      "role": "admin",
+      "start": "2026-11-10",
+      "end": "2026-11-10",
+      "progress": 0,
+      "critical": true,
+      "parentId": 360,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 364,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "5.4 Согласовать с разработчиком доработку поиска или обходной вариант на период пилота",
+      "role": "dev",
+      "start": "2026-11-11",
+      "end": "2026-11-11",
+      "progress": 0,
+      "critical": true,
+      "parentId": 360,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 365,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "5.5 Протестировать поиск на реальных документах, заказах, ТСД и печати",
+      "role": "keeper",
+      "start": "2026-11-12",
+      "end": "2026-11-12",
+      "progress": 0,
+      "critical": false,
+      "parentId": 360,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 370,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "Маркировка стеллажей",
+      "role": "admin",
+      "start": "2026-11-09",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": null,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 371,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "6.1 Утвердить схему именования стеллажей, зон, рядов, ярусов и ячеек",
+      "role": "log",
+      "start": "2026-11-09",
+      "end": "2026-11-09",
+      "progress": 0,
+      "critical": true,
+      "parentId": 370,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 372,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "6.2 Провести аудит физических стеллажей и соответствие схеме",
+      "role": "shift",
+      "start": "2026-11-10",
+      "end": "2026-11-10",
+      "progress": 0,
+      "critical": true,
+      "parentId": 370,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 373,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "6.3 Напечатать этикетки стеллажей со штрихкодом или QR",
+      "role": "admin",
+      "start": "2026-11-11",
+      "end": "2026-11-11",
+      "progress": 0,
+      "critical": true,
+      "parentId": 370,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 374,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "6.4 Наклеить этикетки и проверить сканирование на тестовом ТСД",
+      "role": "keeper",
+      "start": "2026-11-12",
+      "end": "2026-11-12",
+      "progress": 0,
+      "critical": true,
+      "parentId": 370,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 375,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "6.5 Внести стеллажи и ячейки в WMS, сверить с фактическим расположением и при необходимости с МойСклад",
+      "role": "log",
+      "start": "2026-11-13",
+      "end": "2026-11-13",
+      "progress": 0,
+      "critical": true,
+      "parentId": 370,
+      "comments": [],
+      "assignee": ""
+    },
+    {
+      "id": 376,
+      "group": "Поиск и маркировка стеллажей",
+      "task": "6.6 Обучить кладовщиков сканировать стеллажи при размещении, отборе, перемещении и инвентаризации",
+      "role": "shift",
+      "start": "2026-11-16",
+      "end": "2026-11-16",
+      "progress": 0,
+      "critical": true,
+      "parentId": 370,
+      "comments": [],
+      "assignee": ""
     }
   ],
   "notes": "Важно: это план-гипотеза на основе вводных от 26.10.2026. Внешних источников нет.\n\nДопущения:\n- Тестирование пока на одном ТСД.\n- Обмен с МойСкладом пока односторонний: из МойСклад в WMS.\n- Справочники заведены, но неполные.\n- Состав паллеты не передаётся, нужна доработка.\n- Все товары требуют привязки QR-кода.\n- 04.11 не учитываем как рабочий день.\n- Стартовая инвентаризация идёт под руководством начальника отдела логистики и директора по SCM.\n- Цель: склад выполняет операции в WMS и печатает операционные документы из WMS, не заходя в МойСклад.\n\nРиск:\nПолный объём по отгрузке, пополнению зон отбора, компрессии, инвентаризации, двустороннему обмену и сверке остатков может не закрыться за 3 недели. Поэтому план включает ручные обходы, симуляции, верификацию процессов и сбор требований на доработку.\n\nПо хотфиксам:\nP1 это блокирующий дефект: теряет данные, ломает остатки, блокирует операцию, нарушает безопасность.\nP2 это критичный дефект основного процесса: мешает работе, нет нормального обхода.\nP3 это неудобство или косметика: можно обойти, идёт в бэклог после запуска.\n\nКак работает этот файл:\n- Обычная ссылка: https://alexlog-198.github.io/wms-gantt/ это просмотр.\n- Редакторская ссылка: https://alexlog-198.github.io/wms-gantt/?edit=1 это режим владельца.\n- Общие данные берутся из файла data.json в корне репозитория GitHub.\n- Чтобы опубликовать изменения, нужно скачать data.json и заменить его в GitHub.",
@@ -3203,6 +4015,6 @@
   "viewMode": "dates",
   "sortOrder": "asc",
   "collapsedIds": [],
-  "updatedAt": 1792955916521,
+  "updatedAt": 1792999487461,
   "updatedBy": "device-39l3f129trt-mvo7genq"
 }
