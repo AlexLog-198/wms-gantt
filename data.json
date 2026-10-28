@@ -36,7 +36,12 @@
       "progress": 50,
       "critical": false,
       "parentId": 1,
-      "comments": [],
+      "comments": [
+        {
+          "date": "28.10.2026 09:33",
+          "text": "Логист не назначен"
+        }
+      ],
       "assignee": "Жуков Алексей"
     },
     {
@@ -46,7 +51,7 @@
       "role": "scm",
       "start": "2026-10-26",
       "end": "2026-10-26",
-      "progress": 0,
+      "progress": 50,
       "critical": true,
       "parentId": 1,
       "comments": [],
@@ -75,7 +80,12 @@
       "progress": 0,
       "critical": true,
       "parentId": 1,
-      "comments": [],
+      "comments": [
+        {
+          "date": "28.10.2026 09:34",
+          "text": "Все модули работают без перебоев. Проведена инвентаризация. Налажен обмен данными между МС и WMS."
+        }
+      ],
       "assignee": "Жуков Алексей"
     },
     {
@@ -98,7 +108,7 @@
       "role": "log",
       "start": "2026-10-28",
       "end": "2026-10-28",
-      "progress": 0,
+      "progress": 50,
       "critical": false,
       "parentId": 7,
       "comments": [],
@@ -111,7 +121,7 @@
       "role": "admin",
       "start": "2026-10-28",
       "end": "2026-10-28",
-      "progress": 0,
+      "progress": 100,
       "critical": false,
       "parentId": 7,
       "comments": [],
@@ -124,7 +134,7 @@
       "role": "dev",
       "start": "2026-10-28",
       "end": "2026-10-28",
-      "progress": 0,
+      "progress": 100,
       "critical": true,
       "parentId": 7,
       "comments": [],
@@ -150,7 +160,7 @@
       "role": "admin",
       "start": "2026-10-30",
       "end": "2026-10-30",
-      "progress": 0,
+      "progress": 20,
       "critical": false,
       "parentId": 11,
       "comments": [],
@@ -449,7 +459,7 @@
       "role": "log",
       "start": "2026-10-26",
       "end": "2026-10-26",
-      "progress": 50,
+      "progress": 100,
       "critical": true,
       "parentId": 40,
       "comments": [],
@@ -501,10 +511,15 @@
       "role": "admin",
       "start": "2026-10-26",
       "end": "2026-10-27",
-      "progress": 50,
+      "progress": 75,
       "critical": false,
       "parentId": 44,
-      "comments": [],
+      "comments": [
+        {
+          "date": "28.10.2026 08:49",
+          "text": "Проверить логист"
+        }
+      ],
       "assignee": ""
     },
     {
@@ -540,7 +555,7 @@
       "role": "scm",
       "start": "2026-10-27",
       "end": "2026-10-28",
-      "progress": 0,
+      "progress": 100,
       "critical": false,
       "parentId": 44,
       "comments": [
@@ -593,13 +608,17 @@
       "role": "log",
       "start": "2026-10-27",
       "end": "2026-10-28",
-      "progress": 20,
+      "progress": 70,
       "critical": true,
       "parentId": 49,
       "comments": [
         {
           "date": "26.10.2026 18:31",
           "text": "Проверили. Читает не все коды, возможно нет обмена с МС."
+        },
+        {
+          "date": "28.10.2026 08:51",
+          "text": "QR на товаре не распознается; ЧЗ, и SSCC рабоют."
         }
       ],
       "assignee": ""
@@ -611,10 +630,15 @@
       "role": "log",
       "start": "2026-10-28",
       "end": "2026-10-28",
-      "progress": 0,
+      "progress": 50,
       "critical": true,
       "parentId": 49,
-      "comments": [],
+      "comments": [
+        {
+          "date": "28.10.2026 08:53",
+          "text": "А работает; V и  J не проверяли"
+        }
+      ],
       "assignee": "Воронцова Евгения"
     },
     {
@@ -624,7 +648,7 @@
       "role": "log",
       "start": "2026-10-28",
       "end": "2026-10-28",
-      "progress": 0,
+      "progress": 100,
       "critical": false,
       "parentId": 49,
       "comments": [],
@@ -687,8 +711,8 @@
       "group": "Справочники и QR",
       "task": "Аудит справочников",
       "role": "scm",
-      "start": "2026-10-27",
-      "end": "2026-10-30",
+      "start": "2026-10-30",
+      "end": "2026-11-04",
       "progress": 0,
       "critical": true,
       "parentId": null,
@@ -713,8 +737,8 @@
       "group": "Справочники и QR",
       "task": "1.2 Найти товары без штрихкода, QR, срока, кратности, ОСГ",
       "role": "log",
-      "start": "2026-10-27",
-      "end": "2026-10-28",
+      "start": "2026-10-28",
+      "end": "2026-10-29",
       "progress": 0,
       "critical": true,
       "parentId": 60,
@@ -806,7 +830,7 @@
       "role": "admin",
       "start": "2026-10-29",
       "end": "2026-10-29",
-      "progress": 0,
+      "progress": 100,
       "critical": true,
       "parentId": 68,
       "comments": [],
@@ -819,7 +843,7 @@
       "role": "admin",
       "start": "2026-10-29",
       "end": "2026-10-29",
-      "progress": 0,
+      "progress": 100,
       "critical": true,
       "parentId": 68,
       "comments": [],
@@ -1065,7 +1089,7 @@
       "task": "Проверка односторонней загрузки из МойСклад",
       "role": "dev",
       "start": "2026-10-28",
-      "end": "2026-10-29",
+      "end": "2026-10-30",
       "progress": 0,
       "critical": true,
       "parentId": null,
@@ -1078,7 +1102,7 @@
       "task": "1.1 Проверить приход приёмок, заказов, справочников каждые 5 минут",
       "role": "dev",
       "start": "2026-10-28",
-      "end": "2026-10-28",
+      "end": "2026-10-30",
       "progress": 0,
       "critical": true,
       "parentId": 90,
@@ -1091,7 +1115,7 @@
       "task": "1.2 Проверить статусы: проведено, удалено, перенесено",
       "role": "log",
       "start": "2026-10-28",
-      "end": "2026-10-29",
+      "end": "2026-10-30",
       "progress": 0,
       "critical": true,
       "parentId": 90,
@@ -1104,7 +1128,7 @@
       "task": "1.3 Зафиксировать, какие документы WMS пока не может напечатать без МойСклад",
       "role": "log",
       "start": "2026-10-29",
-      "end": "2026-10-29",
+      "end": "2026-11-06",
       "progress": 0,
       "critical": true,
       "parentId": 90,
@@ -4040,26 +4064,26 @@
     19,
     26,
     30,
+    49,
     54,
     60,
-    64,
     68,
-    85,
-    90,
-    94,
     73,
     77,
     81,
-    116,
+    85,
+    90,
+    94,
     98,
     102,
-    112,
     106,
-    145,
+    112,
+    116,
     130,
     135,
     138,
     142,
+    145,
     149,
     160,
     166,
@@ -4085,16 +4109,17 @@
     275,
     279,
     284,
-    294,
     290,
+    294,
     299,
     308,
     320,
     330,
     340,
     350,
+    360,
     370
   ],
-  "updatedAt": 1793028808067,
+  "updatedAt": 1793169317119,
   "updatedBy": "device-39l3f129trt-mvo7genq"
 }
